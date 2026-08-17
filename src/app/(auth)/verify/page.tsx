@@ -31,17 +31,27 @@ function VerifyContent() {
     formData.append("email", email);
     formData.append("token", token);
 
-    const result = await verifyOtpAction(formData);
-    setLoading(false);
+    try {
+      const result = await verifyOtpAction(formData);
+      setLoading(false);
 
-    if (!result.success) {
-      setErrorMessage(result.message ?? "Verification failed. Please try again.");
-      return;
+      if (!result.success) {
+        setErrorMessage(result.message ?? "Verification failed. Please try again.");
+        return;
+      }
+
+      // Success -> redirect to Dashboard
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err: any) {
+      setLoading(false);
+      console.error("Verification error:", err);
+      setErrorMessage(
+        err?.message?.includes("fetch") || err?.name === "TypeError"
+          ? "Network connection issue. Please check your internet connection and try again."
+          : (err?.message ?? "An unexpected error occurred during verification.")
+      );
     }
-
-    // Success -> redirect to Dashboard
-    router.push("/dashboard");
-    router.refresh();
   }
 
   async function handleResend() {
@@ -53,16 +63,26 @@ function VerifyContent() {
     const formData = new FormData();
     formData.append("email", email);
 
-    const result = await signInWithOtpAction(formData);
-    setResending(false);
+    try {
+      const result = await signInWithOtpAction(formData);
+      setResending(false);
 
-    if (!result.success) {
-      setErrorMessage(result.message ?? "Could not resend code. Please try again later.");
-      return;
+      if (!result.success) {
+        setErrorMessage(result.message ?? "Could not resend code. Please try again later.");
+        return;
+      }
+
+      setResendSuccess(true);
+      setTimeout(() => setResendSuccess(false), 5000);
+    } catch (err: any) {
+      setResending(false);
+      console.error("Resend error:", err);
+      setErrorMessage(
+        err?.message?.includes("fetch") || err?.name === "TypeError"
+          ? "Network connection issue. Please check your internet connection and try again."
+          : (err?.message ?? "Could not resend code. Please try again later.")
+      );
     }
-
-    setResendSuccess(true);
-    setTimeout(() => setResendSuccess(false), 5000);
   }
 
   return (

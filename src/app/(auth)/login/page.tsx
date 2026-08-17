@@ -24,21 +24,31 @@ export default function LoginPage() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
 
-    const result = await signInWithOtpAction(formData);
-    setLoading(false);
+    try {
+      const result = await signInWithOtpAction(formData);
+      setLoading(false);
 
-    if (!result.success) {
-      if (result.errors) {
-        setFieldErrors(result.errors);
+      if (!result.success) {
+        if (result.errors) {
+          setFieldErrors(result.errors);
+        }
+        if (result.message) {
+          setErrorMessage(result.message);
+        }
+        return;
       }
-      if (result.message) {
-        setErrorMessage(result.message);
-      }
-      return;
+
+      // Redirect to OTP verification screen
+      router.push(`/verify?email=${encodeURIComponent(email)}&mode=login`);
+    } catch (err: any) {
+      setLoading(false);
+      console.error("Login submission error:", err);
+      setErrorMessage(
+        err?.message?.includes("fetch") || err?.name === "TypeError"
+          ? "Network connection issue. Please check your internet connection and try again."
+          : (err?.message ?? "An unexpected error occurred. Please try again.")
+      );
     }
-
-    // Redirect to OTP verification screen
-    router.push(`/verify?email=${encodeURIComponent(email)}&mode=login`);
   }
 
   return (

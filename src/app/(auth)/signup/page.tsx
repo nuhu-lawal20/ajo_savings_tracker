@@ -24,21 +24,31 @@ export default function SignUpPage() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
 
-    const result = await signUpAction(formData);
-    setLoading(false);
+    try {
+      const result = await signUpAction(formData);
+      setLoading(false);
 
-    if (!result.success) {
-      if (result.errors) {
-        setFieldErrors(result.errors);
+      if (!result.success) {
+        if (result.errors) {
+          setFieldErrors(result.errors);
+        }
+        if (result.message) {
+          setErrorMessage(result.message);
+        }
+        return;
       }
-      if (result.message) {
-        setErrorMessage(result.message);
-      }
-      return;
+
+      // On success, redirect to verify page with email pre-filled
+      router.push(`/verify?email=${encodeURIComponent(email)}&mode=signup`);
+    } catch (err: any) {
+      setLoading(false);
+      console.error("Signup submission error:", err);
+      setErrorMessage(
+        err?.message?.includes("fetch") || err?.name === "TypeError"
+          ? "Network connection issue. Please check your internet connection and try again."
+          : (err?.message ?? "An unexpected error occurred. Please try again.")
+      );
     }
-
-    // On success, redirect to verify page with email pre-filled
-    router.push(`/verify?email=${encodeURIComponent(email)}&mode=signup`);
   }
 
   return (
