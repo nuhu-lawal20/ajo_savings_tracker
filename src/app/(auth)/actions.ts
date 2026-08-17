@@ -20,14 +20,18 @@ const otpRateLimit = new Ratelimit({
 });
 
 async function getClientIp(): Promise<string> {
-  const headerList = await headers();
-  const forwardedFor = headerList.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0].trim();
-  }
-  const realIp = headerList.get("x-real-ip");
-  if (realIp) {
-    return realIp;
+  try {
+    const headerList = await headers();
+    const forwardedFor = headerList.get("x-forwarded-for");
+    if (forwardedFor) {
+      return forwardedFor.split(",")[0].trim();
+    }
+    const realIp = headerList.get("x-real-ip");
+    if (realIp) {
+      return realIp;
+    }
+  } catch {
+    // Fallback if headers fail
   }
   return "127.0.0.1";
 }
@@ -43,12 +47,18 @@ export type AuthActionResult = {
 // -----------------------------------------------------------------------------
 export async function signUpAction(formData: FormData): Promise<AuthActionResult> {
   const ip = await getClientIp();
-  const { success: rateLimitOk } = await otpRateLimit.limit(ip);
-  if (!rateLimitOk) {
-    return {
-      success: false,
-      message: "Too many sign-up attempts. Please wait 15 minutes before trying again.",
-    };
+
+  // Rate Limiter with graceful offline/network fallback
+  try {
+    const { success: rateLimitOk } = await otpRateLimit.limit(ip);
+    if (!rateLimitOk) {
+      return {
+        success: false,
+        message: "Too many sign-up attempts. Please wait 15 minutes before trying again.",
+      };
+    }
+  } catch (rateLimitErr) {
+    console.warn("Upstash rate limit check bypassed due to network error:", rateLimitErr);
   }
 
   const rawData = {
@@ -66,30 +76,42 @@ export async function signUpAction(formData: FormData): Promise<AuthActionResult
   }
 
   const { fullName, email, phone } = parsed.data;
-  const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      shouldCreateUser: true,
-      data: {
-        full_name: fullName,
-        phone,
+  try {
+    const supabase = await createClient();
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        data: {
+          full_name: fullName,
+          phone,
+        },
       },
-    },
-  });
+    });
 
-  if (error) {
+    if (error) {
+      return {
+        success: false,
+        message: error.message || "Failed to send verification code. Please try again.",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Verification code sent to your email.",
+    };
+  } catch (err: any) {
+    console.error("Sign up error:", err);
     return {
       success: false,
-      message: error.message,
+      message:
+        err?.message?.includes("fetch failed") || err?.name === "TypeError"
+          ? "Unable to connect to the authentication server. Please check your internet connection and try again."
+          : (err?.message ?? "An unexpected error occurred during signup. Please try again."),
     };
   }
-
-  return {
-    success: true,
-    message: "Verification code sent to your email.",
-  };
 }
 
 // -----------------------------------------------------------------------------
@@ -97,12 +119,18 @@ export async function signUpAction(formData: FormData): Promise<AuthActionResult
 // -----------------------------------------------------------------------------
 export async function signInWithOtpAction(formData: FormData): Promise<AuthActionResult> {
   const ip = await getClientIp();
-  const { success: rateLimitOk } = await otpRateLimit.limit(ip);
-  if (!rateLimitOk) {
-    return {
-      success: false,
-      message: "Too many login attempts. Please wait 15 minutes before trying again.",
-    };
+
+  // Rate Limiter with graceful offline/network fallback
+  try {
+    const { success: rateLimitOk } = await otpRateLimit.limit(ip);
+    if (!rateLimitOk) {
+      return {
+        success: false,
+        message: "Too many login attempts. Please wait 15 minutes before trying again.",
+      };
+    }
+  } catch (rateLimitErr) {
+    console.warn("Upstash rate limit check bypassed due to network error:", rateLimitErr);
   }
 
   const rawData = {
@@ -118,33 +146,45 @@ export async function signInWithOtpAction(formData: FormData): Promise<AuthActio
   }
 
   const { email } = parsed.data;
-  const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      shouldCreateUser: false, // Only allow existing users on login
-    },
-  });
+  try {
+    const supabase = await createClient();
 
-  if (error) {
-    // If user does not exist, give friendly prompt to signup
-    if (error.message.toLowerCase().includes("user not found") || error.status === 400) {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: false, // Only allow existing users on login
+      },
+    });
+
+    if (error) {
+      // If user does not exist, give friendly prompt to signup
+      if (error.message.toLowerCase().includes("user not found") || error.status === 400) {
+        return {
+          success: false,
+          message: "No account found with this email. Please sign up first.",
+        };
+      }
       return {
         success: false,
-        message: "No account found with this email. Please sign up first.",
+        message: error.message || "Failed to send login code. Please try again.",
       };
     }
+
+    return {
+      success: true,
+      message: "6-digit verification code sent to your email.",
+    };
+  } catch (err: any) {
+    console.error("Login OTP error:", err);
     return {
       success: false,
-      message: error.message,
+      message:
+        err?.message?.includes("fetch failed") || err?.name === "TypeError"
+          ? "Unable to connect to the authentication server. Please check your internet connection and try again."
+          : (err?.message ?? "An unexpected error occurred during sign in. Please try again."),
     };
   }
-
-  return {
-    success: true,
-    message: "6-digit verification code sent to your email.",
-  };
 }
 
 // -----------------------------------------------------------------------------
@@ -165,31 +205,47 @@ export async function verifyOtpAction(formData: FormData): Promise<AuthActionRes
   }
 
   const { email, token } = parsed.data;
-  const supabase = await createClient();
 
-  const { error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: "email",
-  });
+  try {
+    const supabase = await createClient();
 
-  if (error) {
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: "email",
+    });
+
+    if (error) {
+      return {
+        success: false,
+        message: "Invalid or expired verification code. Please check and try again.",
+      };
+    }
+
+    return {
+      success: true,
+    };
+  } catch (err: any) {
+    console.error("Verify OTP error:", err);
     return {
       success: false,
-      message: "Invalid or expired verification code. Please check and try again.",
+      message:
+        err?.message?.includes("fetch failed") || err?.name === "TypeError"
+          ? "Unable to reach the verification server. Please check your connection and try again."
+          : (err?.message ?? "An unexpected error occurred during verification."),
     };
   }
-
-  return {
-    success: true,
-  };
 }
 
 // -----------------------------------------------------------------------------
 // 4. Sign Out
 // -----------------------------------------------------------------------------
 export async function signOutAction() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
+  try {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+  } catch (err) {
+    console.error("Sign out error:", err);
+  }
   redirect("/login");
 }

@@ -161,7 +161,7 @@ export default function SignUpPage() {
         {/* Security badge footer */}
         <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground font-medium">
           <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-          <span>Passwordless & Secured by Supabase OTP</span>
+          <span>Passwordless & Secured with One-Time Code</span>
         </div>
       </div>
     </div>
