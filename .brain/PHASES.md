@@ -14,8 +14,8 @@
 | 2 | Database & Security Foundation | ✅ COMPLETE | APPROVED |
 | 3 | Authentication System | ✅ COMPLETE | APPROVED |
 | 4 | Core Features Circles | ✅ COMPLETE | APPROVED |
-| 5 | Payments & Edge Functions | 🟡 IN PROGRESS | PENDING |
-| 6 | Real-Time Glass Ledger | LOCKED | PENDING |
+| 5 | Payments & Edge Functions | ✅ COMPLETE | APPROVED |
+| 6 | Real-Time Glass Ledger | 🟡 IN PROGRESS | PENDING |
 | 7 | PWA & Offline Layer | LOCKED | PENDING |
 | 8 | AI Trust Score & UI Polish | LOCKED | PENDING |
 | 9 | Documentation & Code Cleanup | LOCKED | PENDING |

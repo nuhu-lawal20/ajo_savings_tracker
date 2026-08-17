@@ -1,12 +1,12 @@
 # ALAJO — NEXT ACTIONS
 > THIS IS THE FIRST FILE AFTER BRAIN.md IN EVERY SESSION.
-> Updated: 2026-08-17 (Phase 4 APPROVED -> Phase 5 Active)
-> Current Phase: 5 — IN PROGRESS
+> Updated: 2026-08-17 (Phase 5 APPROVED -> Phase 6 Active)
+> Current Phase: 6 — IN PROGRESS
 
 ---
 
-## ACTIVE PHASE: PHASE 5 — PAYMENTS & EDGE FUNCTIONS
-Read: .brain/phases/PHASE-5.md for full checklist
+## ACTIVE PHASE: PHASE 6 — REAL-TIME GLASS LEDGER
+Read: .brain/phases/PHASE-6-7.md for full checklist
 
 ### WHAT TO DO RIGHT NOW (in this exact order):
 
