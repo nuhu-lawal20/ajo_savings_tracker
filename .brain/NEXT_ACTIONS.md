@@ -1,12 +1,12 @@
 # ALAJO — NEXT ACTIONS
 > THIS IS THE FIRST FILE AFTER BRAIN.md IN EVERY SESSION.
-> Updated: 2026-08-17 (Phase 0 APPROVED -> Phase 1 Active)
-> Current Phase: 1 — IN PROGRESS
+> Updated: 2026-08-17 (Phase 1 APPROVED -> Phase 2 Active)
+> Current Phase: 2 — IN PROGRESS
 
 ---
 
-## ACTIVE PHASE: PHASE 1 — PROJECT SCAFFOLDING
-Read: .brain/phases/PHASE-1.md for full checklist
+## ACTIVE PHASE: PHASE 2 — DATABASE & SECURITY FOUNDATION
+Read: .brain/phases/PHASE-2.md for full checklist
 
 ### WHAT TO DO RIGHT NOW (in this exact order):
 

@@ -1,5 +1,5 @@
-﻿# PHASE 2 — DATABASE & SECURITY FOUNDATION
-Status: LOCKED | Gate: PENDING
+# PHASE 2 — DATABASE & SECURITY FOUNDATION
+Status: 🟡 IN PROGRESS | Gate: PENDING | Started: 2026-08-17
 Goal: All tables, RLS policies, and cron jobs live in Supabase.
 Depends on: Phase 1 APPROVED | Blocks: Phase 3
 
