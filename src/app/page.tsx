@@ -73,11 +73,11 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-4 w-4 text-slate-950" />
               </Button>
             </Link>
-            <Link href="/login">
+            <a href="#how-it-works">
               <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 font-bold text-sm rounded-full border-emerald-400/40 text-emerald-100 hover:bg-emerald-500/20 hover:text-white">
-                View Live Demo
+                See How It Works
               </Button>
-            </Link>
+            </a>
           </div>
 
           {/* Quick Trust Badges */}
@@ -97,7 +97,7 @@ export default function Home() {
           </div>
 
           {/* Dynamic Auto-Swiping Circular Stylish Feature Showcase Carousel */}
-          <div className="mt-14 w-full">
+          <div id="how-it-works" className="scroll-mt-24 mt-14 w-full">
             <FeatureShowcaseCarousel />
           </div>
         </section>
