@@ -1,5 +1,5 @@
-﻿# PHASE 5 — PAYMENTS & EDGE FUNCTIONS
-Status: LOCKED | Gate: PENDING
+# PHASE 5 — PAYMENTS & EDGE FUNCTIONS
+Status: 🟡 IN PROGRESS | Gate: PENDING | Started: 2026-08-17
 Goal: Members can pay via Paystack. Webhooks verified. Payout status tracked.
 Depends on: Phase 4 APPROVED | Blocks: Phase 6
 

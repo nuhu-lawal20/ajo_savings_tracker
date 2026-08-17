@@ -13,8 +13,8 @@
 | 1 | Project Scaffolding | ✅ COMPLETE | APPROVED |
 | 2 | Database & Security Foundation | ✅ COMPLETE | APPROVED |
 | 3 | Authentication System | ✅ COMPLETE | APPROVED |
-| 4 | Core Features Circles | 🟡 IN PROGRESS | PENDING |
-| 5 | Payments & Edge Functions | LOCKED | PENDING |
+| 4 | Core Features Circles | ✅ COMPLETE | APPROVED |
+| 5 | Payments & Edge Functions | 🟡 IN PROGRESS | PENDING |
 | 6 | Real-Time Glass Ledger | LOCKED | PENDING |
 | 7 | PWA & Offline Layer | LOCKED | PENDING |
 | 8 | AI Trust Score & UI Polish | LOCKED | PENDING |
