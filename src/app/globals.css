@@ -34,60 +34,59 @@
 }
 
 :root {
-  /* Crisp Naira Mint & Fresh Money Palette (Light) */
-  --background: #f3f8f5;
-  --foreground: #062419;
-  --card: rgba(255, 255, 255, 0.88);
-  --card-foreground: #062419;
-  --popover: rgba(255, 255, 255, 0.95);
-  --popover-foreground: #062419;
+  /* Rich Deep Nigerian Money Green (Matches Banknote Imagery) */
+  --background: #021c11;
+  --foreground: #f2fbf6;
+  --card: rgba(5, 34, 22, 0.78);
+  --card-foreground: #f2fbf6;
+  --popover: rgba(5, 34, 22, 0.94);
+  --popover-foreground: #f2fbf6;
   
-  /* Authentic Nigerian Green & Vibrant OPay Emerald */
-  --primary: #008751;        /* Nigerian National Green */
-  --primary-hover: #00a865;  /* Vibrant Mint Glow */
-  --primary-foreground: #ffffff;
+  /* Vibrant Glowing Mint & Emerald */
+  --primary: #00d678;        /* Glowing Mint */
+  --primary-hover: #00fa8d;
+  --primary-foreground: #011d12;
   
   /* Naira Gold / Brass Accents */
-  --secondary: #eef7f2;
-  --secondary-foreground: #04432a;
-  --muted: #e7f2ec;
-  --muted-foreground: #4a6b5d;
-  --accent: #e1f5eb;
-  --accent-foreground: #00683d;
-  
-  --destructive: #e11d48;
-  --destructive-foreground: #ffffff;
-  --border: rgba(0, 135, 81, 0.14);
-  --input: rgba(0, 135, 81, 0.18);
-  --ring: #00b368;
-  --radius: 1rem;
-}
-
-.dark {
-  /* Deep Vault Obsidian Emerald (Dark) */
-  --background: #040d09;
-  --foreground: #edf8f3;
-  --card: rgba(8, 26, 18, 0.78);
-  --card-foreground: #edf8f3;
-  --popover: rgba(8, 26, 18, 0.92);
-  --popover-foreground: #edf8f3;
-  
-  --primary: #00c26d;
-  --primary-hover: #00e583;
-  --primary-foreground: #022013;
-  
-  --secondary: #0c2319;
-  --secondary-foreground: #d2f0e2;
-  --muted: #0d281c;
-  --muted-foreground: #81a896;
-  --accent: #0f3625;
+  --secondary: #0a3322;
+  --secondary-foreground: #d8f5e6;
+  --muted: #0b3825;
+  --muted-foreground: #8fc7ae;
+  --accent: #0f462f;
   --accent-foreground: #5eead4;
   
   --destructive: #f43f5e;
   --destructive-foreground: #4c0519;
-  --border: rgba(0, 194, 109, 0.18);
-  --input: rgba(0, 194, 109, 0.22);
-  --ring: #00c26d;
+  --border: rgba(0, 214, 120, 0.18);
+  --input: rgba(0, 214, 120, 0.22);
+  --ring: #00d678;
+  --radius: 1rem;
+}
+
+.dark {
+  --background: #01140c;
+  --foreground: #edf8f3;
+  --card: rgba(4, 26, 17, 0.82);
+  --card-foreground: #edf8f3;
+  --popover: rgba(4, 26, 17, 0.95);
+  --popover-foreground: #edf8f3;
+  
+  --primary: #00e583;
+  --primary-hover: #34d399;
+  --primary-foreground: #011a10;
+  
+  --secondary: #092619;
+  --secondary-foreground: #d2f0e2;
+  --muted: #0a2d1e;
+  --muted-foreground: #81a896;
+  --accent: #0d3b27;
+  --accent-foreground: #5eead4;
+  
+  --destructive: #f43f5e;
+  --destructive-foreground: #4c0519;
+  --border: rgba(0, 229, 131, 0.18);
+  --input: rgba(0, 229, 131, 0.22);
+  --ring: #00e583;
 }
 
 @layer base {
@@ -100,11 +99,11 @@
   }
 }
 
-/* Authentic Nigerian Banknote Money Background with Glass Overlay */
+/* Authentic Nigerian Banknote Money Background with Deep Emerald Glass Overlay */
 .naira-pattern {
   background-color: var(--background);
   background-image: 
-    linear-gradient(to bottom, rgba(243, 248, 245, 0.84) 0%, rgba(243, 248, 245, 0.92) 100%),
+    linear-gradient(to bottom, rgba(2, 28, 17, 0.82) 0%, rgba(3, 38, 24, 0.88) 100%),
     url('/images/naira-bg.jpg');
   background-size: cover;
   background-position: center top;
@@ -114,23 +113,23 @@
 
 .dark .naira-pattern {
   background-image: 
-    linear-gradient(to bottom, rgba(4, 13, 9, 0.84) 0%, rgba(4, 13, 9, 0.94) 100%),
+    linear-gradient(to bottom, rgba(1, 20, 12, 0.86) 0%, rgba(2, 28, 18, 0.92) 100%),
     url('/images/naira-bg.jpg');
 }
-
 
 /* Glassmorphism Vault Card */
 .glass-vault {
   background: var(--card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
-  box-shadow: 0 12px 36px -8px rgba(0, 135, 81, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 214, 120, 0.14) inset;
 }
 
 .dark .glass-vault {
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 194, 109, 0.1) inset;
+  box-shadow: 0 18px 45px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 229, 131, 0.14) inset;
 }
+
 
 /* Metallic Naira Gold Accent Badge */
 .naira-gold-badge {
