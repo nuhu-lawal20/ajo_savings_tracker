@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -34,48 +34,60 @@
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #059669; /* Emerald 600 */
+  /* Crisp Naira Mint & Fresh Money Palette (Light) */
+  --background: #f3f8f5;
+  --foreground: #062419;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-foreground: #062419;
+  --popover: rgba(255, 255, 255, 0.95);
+  --popover-foreground: #062419;
+  
+  /* Authentic Nigerian Green & Vibrant OPay Emerald */
+  --primary: #008751;        /* Nigerian National Green */
+  --primary-hover: #00a865;  /* Vibrant Mint Glow */
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #ecfdf5; /* Emerald 50 */
-  --accent-foreground: #047857; /* Emerald 700 */
-  --destructive: #ef4444;
+  
+  /* Naira Gold / Brass Accents */
+  --secondary: #eef7f2;
+  --secondary-foreground: #04432a;
+  --muted: #e7f2ec;
+  --muted-foreground: #4a6b5d;
+  --accent: #e1f5eb;
+  --accent-foreground: #00683d;
+  
+  --destructive: #e11d48;
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #10b981; /* Emerald 500 */
-  --radius: 0.75rem;
+  --border: rgba(0, 135, 81, 0.14);
+  --input: rgba(0, 135, 81, 0.18);
+  --ring: #00b368;
+  --radius: 1rem;
 }
 
 .dark {
-  --background: #090d16;
-  --foreground: #f8fafc;
-  --card: #111827;
-  --card-foreground: #f8fafc;
-  --popover: #111827;
-  --popover-foreground: #f8fafc;
-  --primary: #10b981; /* Emerald 500 */
-  --primary-foreground: #042f2e;
-  --secondary: #1f2937;
-  --secondary-foreground: #f8fafc;
-  --muted: #1f2937;
-  --muted-foreground: #94a3b8;
-  --accent: #064e3b; /* Emerald 900 */
-  --accent-foreground: #6ee7b7; /* Emerald 300 */
-  --destructive: #f87171;
-  --destructive-foreground: #450a0a;
-  --border: #1e293b;
-  --input: #1e293b;
-  --ring: #10b981;
+  /* Deep Vault Obsidian Emerald (Dark) */
+  --background: #040d09;
+  --foreground: #edf8f3;
+  --card: rgba(8, 26, 18, 0.78);
+  --card-foreground: #edf8f3;
+  --popover: rgba(8, 26, 18, 0.92);
+  --popover-foreground: #edf8f3;
+  
+  --primary: #00c26d;
+  --primary-hover: #00e583;
+  --primary-foreground: #022013;
+  
+  --secondary: #0c2319;
+  --secondary-foreground: #d2f0e2;
+  --muted: #0d281c;
+  --muted-foreground: #81a896;
+  --accent: #0f3625;
+  --accent-foreground: #5eead4;
+  
+  --destructive: #f43f5e;
+  --destructive-foreground: #4c0519;
+  --border: rgba(0, 194, 109, 0.18);
+  --input: rgba(0, 194, 109, 0.22);
+  --ring: #00c26d;
 }
 
 @layer base {
@@ -84,6 +96,44 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1, "tnum" 1;
   }
+}
+
+/* Authentic Nigerian Banknote Watermark / Guilloché Security Wave Background */
+.naira-pattern {
+  background-color: var(--background);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(0, 179, 104, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(217, 119, 6, 0.08) 0px, transparent 40%),
+    radial-gradient(at 50% 100%, rgba(0, 135, 81, 0.10) 0px, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(0, 194, 109, 0.04) 0px, transparent 80%),
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0 C75 25, 95 35, 120 40 C95 45, 75 55, 60 80 C45 55, 25 45, 0 40 C25 35, 45 25, 60 0 Z' fill='none' stroke='%23008751' stroke-width='0.4' stroke-opacity='0.12'/%3E%3Ccircle cx='60' cy='60' r='28' fill='none' stroke='%23008751' stroke-width='0.3' stroke-opacity='0.08' stroke-dasharray='2,3'/%3E%3Cpath d='M0 60 Q30 90, 60 60 T120 60' fill='none' stroke='%23d97706' stroke-width='0.3' stroke-opacity='0.08'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+/* Glassmorphism Vault Card */
+.glass-vault {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 36px -8px rgba(0, 135, 81, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+}
+
+.dark .glass-vault {
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 194, 109, 0.1) inset;
+}
+
+/* Metallic Naira Gold Accent Badge */
+.naira-gold-badge {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(253, 230, 138, 0.7) 100%);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  color: #92400e;
+}
+
+.dark .naira-gold-badge {
+  background: linear-gradient(135deg, rgba(120, 53, 15, 0.4) 0%, rgba(69, 26, 3, 0.6) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fde68a;
 }

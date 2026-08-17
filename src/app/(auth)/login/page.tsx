@@ -42,21 +42,25 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-12 bg-background">
+    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-12">
       <div className="w-full max-w-md space-y-6">
         {/* Brand Logo Header */}
         <div className="flex flex-col items-center text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-2xl shadow-md shadow-emerald-600/25">
-              A
+            <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-extrabold text-2xl shadow-lg shadow-emerald-600/30 border border-emerald-400/30">
+              ₦
             </div>
-            <span className="font-extrabold text-2xl tracking-tight text-foreground">Alajo</span>
+            <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-emerald-700 to-emerald-950 dark:from-emerald-300 dark:to-white bg-clip-text text-transparent">
+              Alajo
+            </span>
           </Link>
-          <p className="text-xs text-muted-foreground font-medium">Nigerian Digital Rotating Savings Circle</p>
+          <p className="text-xs text-emerald-800 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+            Nigerian Digital Rotating Savings Circle
+          </p>
         </div>
 
         {/* Login Card */}
-        <Card className="border-border/60 bg-card shadow-lg shadow-black/5">
+        <Card className="glass-vault border-border/40 shadow-xl">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
             <CardDescription className="text-sm text-muted-foreground">

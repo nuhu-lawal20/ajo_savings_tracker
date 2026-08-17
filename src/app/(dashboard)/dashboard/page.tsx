@@ -77,19 +77,19 @@ export default async function DashboardPage() {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Trust Score Card */}
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="glass-vault border-border/40 hover:scale-[1.01] transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               AI Trust Score
             </CardTitle>
-            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+            <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold flex items-baseline gap-2">
+            <div className="text-2xl font-black flex items-baseline gap-2 text-foreground">
               <span>{trustScore}</span>
-              <span className="text-xs text-muted-foreground font-normal">/ 100</span>
+              <span className="text-xs text-muted-foreground font-semibold">/ 100</span>
             </div>
-            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-medium flex items-center gap-1">
+            <p className="text-[11px] text-emerald-700 dark:text-emerald-300 mt-1 font-bold flex items-center gap-1">
               <Sparkles className="h-3 w-3" />
               {trustScore >= 70 ? "Tier 1: Priority Payouts" : "Tier 2: Standard Rotation"}
             </p>
@@ -97,53 +97,54 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Active Circles */}
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="glass-vault border-border/40 hover:scale-[1.01] transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Active Circles
             </CardTitle>
-            <CircleDollarSign className="h-4 w-4 text-emerald-600" />
+            <CircleDollarSign className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold">{activeCirclesCount}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">
-              {activeCirclesCount === 0 ? "Join your first circle" : "Circles in rotation"}
+            <div className="text-2xl font-black text-foreground">{activeCirclesCount}</div>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
+              {activeCirclesCount === 0 ? "Join your first circle" : "Circles in active rotation"}
             </p>
           </CardContent>
         </Card>
 
         {/* Total Pooled Escrow */}
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="glass-vault border-border/40 hover:scale-[1.01] transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               Escrow Security
             </CardTitle>
-            <Lock className="h-4 w-4 text-emerald-600" />
+            <Lock className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">100%</div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+            <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">100%</div>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               Protected by Paystack Escrow
             </p>
           </CardContent>
         </Card>
 
         {/* KYC Status */}
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="glass-vault border-border/40 hover:scale-[1.01] transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
               KYC Status
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-emerald-600" />
+            <TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-extrabold">Tier {profile?.kyc_tier ?? 1}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+            <div className="text-2xl font-black text-foreground">Tier {profile?.kyc_tier ?? 1}</div>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               Verified with Email OTP
             </p>
           </CardContent>
         </Card>
       </div>
+
 
       {/* Main Content: Circles & Transactions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

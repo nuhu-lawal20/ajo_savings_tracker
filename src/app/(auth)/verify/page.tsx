@@ -66,9 +66,9 @@ function VerifyContent() {
   }
 
   return (
-    <Card className="border-border/60 bg-card shadow-lg shadow-black/5">
+    <Card className="glass-vault border-border/40 shadow-xl">
       <CardHeader className="space-y-1 text-center">
-        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600">
+        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
           <KeyRound className="h-6 w-6" />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight">Enter Verification Code</CardTitle>

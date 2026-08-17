@@ -47,12 +47,12 @@ export function GlassLedger({
   return (
     <div className="space-y-6">
       {/* Live Connection & Progress Header */}
-      <Card className="border-border/60 bg-card shadow-sm">
+      <Card className="glass-vault border-border/40 shadow-md">
         <CardHeader className="pb-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <CardTitle className="text-base font-bold flex items-center gap-2">
-                <Activity className="h-4 w-4 text-emerald-600 animate-pulse" />
+                <Activity className="h-4 w-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
                 Round #{currentRound} Escrow Pool Progress
               </CardTitle>
               <CardDescription className="text-xs">
@@ -65,8 +65,8 @@ export function GlassLedger({
                 variant="outline"
                 className={`text-[10px] px-2.5 py-0.5 rounded-full flex items-center gap-1.5 ${
                   isConnected
-                    ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-500/30"
-                    : "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-500/30"
+                    ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 font-bold"
+                    : "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-500/30 font-bold"
                 }`}
               >
                 {isConnected ? (
@@ -88,15 +88,15 @@ export function GlassLedger({
         <CardContent className="space-y-3">
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs">
-              <span className="font-semibold text-muted-foreground">Collected in Escrow:</span>
-              <span className="font-extrabold text-emerald-600 dark:text-emerald-400">
+              <span className="font-bold text-muted-foreground">Collected in Escrow:</span>
+              <span className="font-black text-emerald-600 dark:text-emerald-400 text-sm">
                 ₦{totalCollected.toLocaleString()}{" "}
-                <span className="text-muted-foreground font-normal">/ ₦{targetRoundTotal.toLocaleString()}</span>
+                <span className="text-muted-foreground font-semibold text-xs">/ ₦{targetRoundTotal.toLocaleString()}</span>
               </span>
             </div>
-            <div className="h-3 w-full bg-muted rounded-full overflow-hidden">
+            <div className="h-3 w-full bg-muted rounded-full overflow-hidden p-0.5 border border-border/40">
               <div
-                className="h-full bg-emerald-600 transition-all duration-700 rounded-full"
+                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-700 rounded-full shadow-sm shadow-emerald-500/30"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -105,10 +105,10 @@ export function GlassLedger({
       </Card>
 
       {/* Real-Time Glass Ledger Records */}
-      <Card className="border-border/60 bg-card shadow-sm">
+      <Card className="glass-vault border-border/40 shadow-md">
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-bold flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-emerald-600" />
+            <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             Transparent Glass Ledger
           </CardTitle>
           <CardDescription className="text-xs">

@@ -25,17 +25,21 @@ export function Navbar({ userProfile }: NavbarProps) {
   const trustScore = userProfile?.trust_score ?? 50;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
         {/* Brand */}
         <div className="flex items-center gap-6">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="h-9 w-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-emerald-600/20">
-              A
+            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-emerald-600/30 border border-emerald-400/30">
+              ₦
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-base tracking-tight leading-none">Alajo</span>
-              <span className="text-[10px] text-muted-foreground font-medium">Digital Savings</span>
+              <span className="font-extrabold text-base tracking-tight leading-none bg-gradient-to-r from-emerald-700 to-emerald-950 dark:from-emerald-300 dark:to-white bg-clip-text text-transparent">
+                Alajo
+              </span>
+              <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold uppercase tracking-wider mt-0.5">
+                Digital Savings
+              </span>
             </div>
           </Link>
 
