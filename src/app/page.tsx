@@ -69,19 +69,27 @@ export default function Home() {
             Join or create trusted Ajo & Esusu groups with your friends, traders, and colleagues. Track every kobo on a live transparent ledger and collect your payout on time.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto">
-            <Link href="/signup">
+          <div className="mt-8 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto items-center justify-center">
+            <Link href="/signup" className="w-full sm:w-auto">
               <Button size="lg" className="w-full sm:w-auto h-12 px-8 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/40 rounded-full">
-                Start or Join a Circle
+                Get Started — Start or Join a Circle
                 <ArrowRight className="ml-2 h-4 w-4 text-slate-950" />
               </Button>
             </Link>
-            <Link href="/how-it-works">
+            <Link href="/how-it-works" className="w-full sm:w-auto">
               <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 font-bold text-sm rounded-full border-emerald-400/40 text-emerald-100 hover:bg-emerald-500/20 hover:text-white">
                 See How It Works
               </Button>
             </Link>
           </div>
+
+          {/* Sign In Directly Below Get Started */}
+          <p className="mt-3.5 text-xs text-emerald-200/80 font-medium">
+            Already have an account?{" "}
+            <Link href="/login" className="font-bold text-white underline underline-offset-4 hover:text-emerald-300 transition-colors">
+              Sign In here
+            </Link>
+          </p>
 
           {/* Quick Trust Badges */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-extrabold text-emerald-200">
