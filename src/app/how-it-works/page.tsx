@@ -95,10 +95,10 @@ export default function HowItWorksPage() {
   return (
     <div className="min-h-screen flex flex-col selection:bg-emerald-500 selection:text-slate-950">
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-emerald-500/20 bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
-        <div className="max-w-6xl mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
+      <header className="sticky top-0 z-50 w-full border-b border-emerald-500/20 bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 py-2 sm:py-0">
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 sm:px-8 sm:h-16">
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-500/40 ring-2 ring-emerald-400/30">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-500/40 ring-2 ring-emerald-400/30 shrink-0">
               ₦
             </div>
             <div className="flex flex-col">
@@ -111,7 +111,8 @@ export default function HowItWorksPage() {
             </div>
           </Link>
 
-          <nav className="flex items-center gap-3">
+          {/* Desktop Navigation */}
+          <nav className="hidden sm:flex items-center gap-4">
             <Link href="/login">
               <Button variant="ghost" size="sm" className="font-bold text-xs text-emerald-100 hover:text-white hover:bg-emerald-500/20">
                 Sign In
@@ -124,6 +125,25 @@ export default function HowItWorksPage() {
               </Button>
             </Link>
           </nav>
+
+          {/* Mobile Navigation (Centered vertically: Get Started on top, Glowing Sign In clearly below) */}
+          <div className="flex sm:hidden flex-col items-center justify-center gap-1.5">
+            <Link href="/signup">
+              <Button
+                size="sm"
+                className="h-8 px-4 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 text-xs font-black shadow-md shadow-emerald-500/30 rounded-full flex items-center gap-1"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="h-3 w-3 text-slate-950" />
+              </Button>
+            </Link>
+            <Link
+              href="/login"
+              className="text-[11px] font-extrabold text-emerald-200 hover:text-white px-3 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/50 shadow-[0_0_12px_rgba(0,229,131,0.45)] tracking-tight transition-all"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
       </header>
 

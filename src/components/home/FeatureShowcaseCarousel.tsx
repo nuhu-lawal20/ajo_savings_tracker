@@ -54,7 +54,7 @@ const slides: ShowcaseSlide[] = [
   },
   {
     id: 2,
-    tag: "Step 2: Safe Vault Escrow",
+    tag: "Step 2: Safe Vault",
     tagColor: "bg-amber-500/25 text-amber-200 border-amber-400/40",
     title: "100% Protected Savings Pool",
     subtitle: "No organizer or admin has direct custody of your money",
@@ -68,12 +68,12 @@ const slides: ShowcaseSlide[] = [
     highlightSub: "Funds are programmatically locked until rotation payout",
     progressLabel: "Security Status",
     progressPercent: 100,
-    progressDetail: "Protected against defaults & fraud",
+    progressDetail: "Protected against defaults",
     icon: Lock,
   },
   {
     id: 3,
-    tag: "Step 3: Live Glass Ledger",
+    tag: "Step 3: Live Ledger",
     tagColor: "bg-teal-500/25 text-teal-200 border-teal-400/40",
     title: "Real-Time Transparent Tracking",
     subtitle: "Every member sees live updates the second a contribution is made",
@@ -87,12 +87,12 @@ const slides: ShowcaseSlide[] = [
     highlightSub: "Next in line for automated circle disbursement",
     progressLabel: "Round Contributions",
     progressPercent: 80,
-    progressDetail: "4 of 5 Members Paid • 1 Pending",
+    progressDetail: "4 of 5 Members Paid",
     icon: Eye,
   },
   {
     id: 4,
-    tag: "Step 4: Prompt Payout & Credit",
+    tag: "Step 4: Payout Day",
     tagColor: "bg-emerald-500/25 text-emerald-200 border-emerald-400/40",
     title: "Automated Round Disbursement",
     subtitle: "Full pool delivered to the rightful member on rotation day",
@@ -106,7 +106,7 @@ const slides: ShowcaseSlide[] = [
     highlightSub: "Paying on time unlocks priority #1 slots in future circles",
     progressLabel: "Cycle Progression",
     progressPercent: 100,
-    progressDetail: "Round 2 of 5 Completed Successfully",
+    progressDetail: "Round 2 of 5 Completed",
     icon: Wallet,
   },
 ];
@@ -128,7 +128,7 @@ export function FeatureShowcaseCarousel() {
 
   return (
     <div
-      className="w-full max-w-2xl mx-auto"
+      className="w-full max-w-2xl mx-auto px-1 sm:px-0 overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -149,36 +149,36 @@ export function FeatureShowcaseCarousel() {
       </div>
 
       {/* Main Circular Stylish Glass Vault Card */}
-      <div className="glass-vault rounded-[2.75rem] p-7 sm:p-9 text-left relative overflow-hidden transition-all duration-500 border border-emerald-400/30 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_rgba(0,229,131,0.12)]">
+      <div className="glass-vault rounded-3xl sm:rounded-[2.75rem] p-5 sm:p-8 text-left relative overflow-hidden transition-all duration-500 border border-emerald-400/30 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_rgba(0,229,131,0.12)] w-full">
         {/* Ambient Circular Currency Flare */}
         <div className="absolute -top-12 -right-12 w-64 h-64 bg-gradient-to-bl from-emerald-400/25 via-teal-500/15 to-transparent rounded-full blur-2xl pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-emerald-600/15 rounded-full blur-xl pointer-events-none" />
 
         {/* Top Header with Circular Floating Currency Emblem */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-500/20 pb-5">
-          <div className="flex items-center gap-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
+          <div className="flex items-center gap-3">
             {/* Circular Stylish Emblem */}
-            <div className="h-13 w-13 rounded-full bg-gradient-to-tr from-emerald-700 via-emerald-500 to-teal-400 text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-emerald-500/40 ring-4 ring-emerald-500/20 border border-emerald-200/40 shrink-0">
+            <div className="h-11 w-11 sm:h-13 sm:w-13 rounded-full bg-gradient-to-tr from-emerald-700 via-emerald-500 to-teal-400 text-white flex items-center justify-center font-black text-xl sm:text-2xl shadow-xl shadow-emerald-500/40 ring-4 ring-emerald-500/20 border border-emerald-200/40 shrink-0">
               ₦
             </div>
-            <div>
-              <h3 className="font-black text-lg sm:text-xl text-white tracking-tight leading-snug">
+            <div className="min-w-0">
+              <h3 className="font-black text-base sm:text-lg text-white tracking-tight leading-snug truncate">
                 {slide.title}
               </h3>
-              <p className="text-xs text-emerald-200/90 font-medium mt-0.5">
+              <p className="text-[11px] sm:text-xs text-emerald-200/90 font-medium mt-0.5">
                 {slide.subtitle}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto">
+          <div className="flex flex-wrap items-center gap-1.5 self-start sm:self-auto shrink-0">
             <Badge
               variant="outline"
-              className={`text-[11px] font-extrabold px-3 py-1 rounded-full border ${slide.tagColor}`}
+              className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${slide.tagColor}`}
             >
               {slide.tag}
             </Badge>
-            <Badge className={`${slide.statusBadgeColor} text-[11px] font-black px-3 py-1 rounded-full shadow-md`}>
+            <Badge className={`${slide.statusBadgeColor} text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md`}>
               {slide.statusBadge}
             </Badge>
           </div>
