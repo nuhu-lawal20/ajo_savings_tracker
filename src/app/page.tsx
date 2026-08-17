@@ -58,10 +58,6 @@ export default function Home() {
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none -z-10" />
           <div className="absolute top-1/3 right-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full naira-gold-badge text-xs font-bold mb-6 shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-            <span>3MTT NextGen Capstone Project • Kaduna</span>
-          </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight max-w-4xl leading-[1.12]">
             Replacing Physical Trust with{" "}
