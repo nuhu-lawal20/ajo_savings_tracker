@@ -31,7 +31,7 @@ export default async function TransactionsPage() {
         <CardHeader>
           <CardTitle className="text-lg font-bold">Ledger Records</CardTitle>
           <CardDescription className="text-xs">
-            Every transaction is verified on Paystack and permanently signed in Supabase PostgreSQL.
+            Every transaction is instantly verified, cryptographically signed, and permanently recorded on the immutable ledger.
           </CardDescription>
         </CardHeader>
 
@@ -72,7 +72,7 @@ export default async function TransactionsPage() {
                           </Badge>
                         </div>
                         <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                          Ref: {tx.paystack_reference} • Round #{tx.round_number} • {new Date(tx.created_at).toLocaleString()}
+                          Receipt: {tx.paystack_reference} • Round #{tx.round_number} • {new Date(tx.created_at).toLocaleString()}
                         </p>
                       </div>
                     </div>

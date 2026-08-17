@@ -32,7 +32,10 @@ export default function Home() {
             </div>
           </div>
 
-          <nav className="flex items-center gap-3">
+          <nav className="flex items-center gap-3 sm:gap-4">
+            <Link href="/how-it-works" className="font-bold text-xs text-emerald-200 hover:text-white transition-colors hidden sm:block px-2 py-1">
+              How It Works
+            </Link>
             <Link href="/login">
               <Button variant="ghost" size="sm" className="font-bold text-xs text-emerald-100 hover:text-white hover:bg-emerald-500/20">
                 Sign In
@@ -73,11 +76,11 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-4 w-4 text-slate-950" />
               </Button>
             </Link>
-            <a href="#how-it-works">
+            <Link href="/how-it-works">
               <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 font-bold text-sm rounded-full border-emerald-400/40 text-emerald-100 hover:bg-emerald-500/20 hover:text-white">
                 See How It Works
               </Button>
-            </a>
+            </Link>
           </div>
 
           {/* Quick Trust Badges */}

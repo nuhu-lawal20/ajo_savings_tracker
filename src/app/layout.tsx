@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Alajo — Digital Savings Circle (Ajo/Esusu/Adashe)",
   description:
-    "Offline-first PWA for digitized Nigerian rotating savings with real-time transparent ledgers, Paystack escrow, and AI trust scoring.",
+    "Automated and secure Nigerian rotating savings circles (Ajo/Esusu/Adashe). 100% fraud protection, transparent live ledgers, and guaranteed on-time payouts.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",

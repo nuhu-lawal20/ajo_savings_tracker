@@ -161,7 +161,7 @@ export function GlassLedger({
                           </Badge>
                         </div>
                         <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
-                          Ref: {tx.paystack_reference} • {new Date(tx.created_at).toLocaleTimeString()}
+                          Receipt: {tx.paystack_reference} • {new Date(tx.created_at).toLocaleTimeString()}
                         </p>
                       </div>
                     </div>

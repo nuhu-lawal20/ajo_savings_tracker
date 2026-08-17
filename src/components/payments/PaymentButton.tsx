@@ -47,7 +47,7 @@ export function PaymentButton({
       const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
       if (!publicKey) {
-        alert("Paystack Public Key is not configured in .env.local");
+        alert("Payment gateway configuration error. Please contact support.");
         setLoading(false);
         return;
       }
@@ -63,7 +63,7 @@ export function PaymentButton({
           script.src = "https://js.paystack.co/v1/inline.js";
           script.async = true;
           script.onload = () => resolve();
-          script.onerror = () => reject(new Error("Failed to load Paystack script"));
+          script.onerror = () => reject(new Error("Failed to load secure payment gateway"));
           document.body.appendChild(script);
         });
       };
