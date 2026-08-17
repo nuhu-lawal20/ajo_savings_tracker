@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { InviteShareModal } from "@/components/circles/InviteShareModal";
 import { ActivateCircleButton } from "@/components/circles/ActivateCircleButton";
+import { PaymentButton } from "@/components/payments/PaymentButton";
 
 export default async function CircleDetailPage({
   params,
@@ -60,6 +61,7 @@ export default async function CircleDetailPage({
   const isCreator = circle.creator_id === user!.id;
   const currentMembersCount = members?.length ?? 0;
   const poolPerRound = Number(circle.contribution_amount) * circle.max_members;
+  const userMembership = members?.find((m: any) => m.user_id === user!.id);
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
@@ -98,6 +100,15 @@ export default async function CircleDetailPage({
 
           {isCreator && circle.status === "pending" && (
             <ActivateCircleButton circleId={circle.id} memberCount={currentMembersCount} />
+          )}
+
+          {circle.status === "active" && userMembership && !userMembership.has_paid_current_round && (
+            <PaymentButton
+              circleId={circle.id}
+              amount={Number(circle.contribution_amount)}
+              email={user!.email!}
+              circleName={circle.name}
+            />
           )}
         </div>
       </div>
