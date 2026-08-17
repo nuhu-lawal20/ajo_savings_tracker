@@ -35,33 +35,34 @@
 
 :root {
   /* Rich Deep Nigerian Money Green (Matches Banknote Imagery) */
-  --background: #021c11;
-  --foreground: #f2fbf6;
-  --card: rgba(5, 34, 22, 0.78);
-  --card-foreground: #f2fbf6;
-  --popover: rgba(5, 34, 22, 0.94);
-  --popover-foreground: #f2fbf6;
+  --background: #021a10;
+  --foreground: #ffffff;
+  --card: rgba(4, 30, 19, 0.82);
+  --card-foreground: #ffffff;
+  --popover: rgba(4, 30, 19, 0.96);
+  --popover-foreground: #ffffff;
   
   /* Vibrant Glowing Mint & Emerald */
-  --primary: #00d678;        /* Glowing Mint */
-  --primary-hover: #00fa8d;
+  --primary: #00e583;        /* Glowing Mint */
+  --primary-hover: #34d399;
   --primary-foreground: #011d12;
   
   /* Naira Gold / Brass Accents */
-  --secondary: #0a3322;
-  --secondary-foreground: #d8f5e6;
-  --muted: #0b3825;
-  --muted-foreground: #8fc7ae;
-  --accent: #0f462f;
-  --accent-foreground: #5eead4;
+  --secondary: #0b3624;
+  --secondary-foreground: #e6fcf1;
+  --muted: #0d3d29;
+  --muted-foreground: #b3dfcd;
+  --accent: #114c33;
+  --accent-foreground: #6ee7b7;
   
-  --destructive: #f43f5e;
+  --destructive: #fb7185;
   --destructive-foreground: #4c0519;
-  --border: rgba(0, 214, 120, 0.18);
-  --input: rgba(0, 214, 120, 0.22);
-  --ring: #00d678;
-  --radius: 1rem;
+  --border: rgba(0, 229, 131, 0.22);
+  --input: rgba(0, 229, 131, 0.25);
+  --ring: #00e583;
+  --radius: 1.25rem;
 }
+
 
 .dark {
   --background: #01140c;
