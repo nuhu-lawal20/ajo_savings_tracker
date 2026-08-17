@@ -1,5 +1,5 @@
-﻿# PHASE 4 — CORE FEATURES: CIRCLES
-Status: LOCKED | Gate: PENDING
+# PHASE 4 — CORE FEATURES: CIRCLES
+Status: 🟡 IN PROGRESS | Gate: PENDING | Started: 2026-08-17
 Goal: Users can create circles, generate invite links, and join circles.
 Depends on: Phase 3 APPROVED | Blocks: Phase 5
 

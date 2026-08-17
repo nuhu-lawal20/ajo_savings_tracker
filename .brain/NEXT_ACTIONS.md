@@ -1,12 +1,12 @@
 # ALAJO — NEXT ACTIONS
 > THIS IS THE FIRST FILE AFTER BRAIN.md IN EVERY SESSION.
-> Updated: 2026-08-17 (Phase 2 APPROVED -> Phase 3 Active)
-> Current Phase: 3 — IN PROGRESS
+> Updated: 2026-08-17 (Phase 3 APPROVED -> Phase 4 Active)
+> Current Phase: 4 — IN PROGRESS
 
 ---
 
-## ACTIVE PHASE: PHASE 3 — AUTHENTICATION SYSTEM
-Read: .brain/phases/PHASE-3.md for full checklist
+## ACTIVE PHASE: PHASE 4 — CORE FEATURES: CIRCLES
+Read: .brain/phases/PHASE-4.md for full checklist
 
 ### WHAT TO DO RIGHT NOW (in this exact order):
 
