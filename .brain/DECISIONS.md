@@ -1,4 +1,4 @@
-﻿# 🗂️ ALAJO — ARCHITECTURAL DECISIONS LOG
+# 🗂️ ALAJO — ARCHITECTURAL DECISIONS LOG
 > Every decision, why it was made, and what alternatives were rejected.
 > NEVER change a decision without adding a new entry explaining the change.
 
@@ -128,3 +128,39 @@ Each entry: Decision → Reason → Alternatives Rejected → Date → Session
 - **Reason:** "Project" = code artifact. Judges need README, code quality, documentation. Permanently accessible (Vercel free tier can go down). README will contain the live URL — judges get both.
 - **Separate field:** Demo video URL goes in the "Link to demo video" field.
 - **Date:** 2026-08-13 | **Session:** 1
+
+---
+
+## D012 — Visual Theme: Authentic Nigerian Banknote & Deep Emerald
+- **Decision:** Use deep Nigerian money green (`#021A10`) background with authentic Naira currency artwork (`public/images/naira-bg.jpg`), glowing mint accents (`#00E583`), and frosted `.glass-vault` styling.
+- **Reason:** Instantly communicates financial trust and cultural authenticity to Nigerian users and 3MTT evaluators.
+- **Date:** 2026-08-17 | **Session:** 5
+
+---
+
+## D013 — Dedicated Customer Explainer: `/how-it-works`
+- **Decision:** Build a standalone `/how-it-works` 5-step visual guide page with FAQ and Nigerian context instead of keeping explainer text in a small modal or buried section.
+- **Reason:** Gives non-technical users, market traders, and salary earners total clarity on the 5-step savings cycle before signing up.
+- **Date:** 2026-08-17 | **Session:** 5
+
+---
+
+## D014 — Customer-Facing Copy: 100% Results-Driven (Zero Tech Jargon)
+- **Decision:** Scrub all internal tech library names (`Supabase`, `Paystack`, `PostgreSQL`, `Upstash`, `Redis`, `Cloudinary`, `Sentry`, `OneSignal`, `Dexie`, `Service Worker`, `RLS`) from customer-facing screens.
+- **Reason:** Users are motivated by financial guarantees and outcomes (Escrow Protection, Live Transparent Ledger, Offline Resilience, Signed Receipts), not developer tooling. Technical stack details are reserved strictly for developer documentation (`README.md`, `API.md`, `SECURITY.md`).
+- **Date:** 2026-08-17 | **Session:** 5
+
+---
+
+## D015 — Mobile-First Responsive Navigation: Centered Stack with Luminous Micro-Pill
+- **Decision:** Structure mobile header navigation with `Get Started` on top and a centered, luminous emerald glowing `Sign In` micro-pill directly below it.
+- **Reason:** Solves vertical crowding and avoids edge clipping on small mobile viewports (390px iPhone/Android) while keeping both CTAs prominent.
+- **Date:** 2026-08-17 | **Session:** 5
+
+---
+
+## D016 — React 19 SSR Hydration Safety: `useSyncExternalStore`
+- **Decision:** Use `useSyncExternalStore` with server snapshot fallbacks for all browser globals (`navigator.onLine`, `window.location`).
+- **Reason:** Eliminates React 19 hydration mismatch warnings on Turbopack App Router SSR.
+- **Date:** 2026-08-17 | **Session:** 5
+

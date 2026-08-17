@@ -73,49 +73,49 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col">
-        <section className="relative py-14 sm:py-20 px-4 sm:px-8 max-w-6xl mx-auto flex flex-col items-center text-center overflow-hidden">
+        <section className="relative pt-8 pb-14 sm:py-20 px-4 sm:px-8 max-w-6xl mx-auto flex flex-col items-center text-center overflow-hidden">
           {/* Ambient Glows */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none -z-10" />
           <div className="absolute top-1/3 right-10 w-64 h-64 bg-teal-400/15 rounded-full blur-3xl pointer-events-none -z-10" />
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight max-w-4xl leading-[1.12] text-white">
+          <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight max-w-3xl leading-[1.3] sm:leading-[1.15] text-white">
             Save in Circles With Peace of Mind.{" "}
-            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200 bg-clip-text text-transparent">
+            <span className="block mt-1.5 sm:inline sm:mt-0 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-200 bg-clip-text text-transparent">
               Zero Stories. 100% Safe.
             </span>
           </h1>
 
-          <p className="mt-6 text-base sm:text-xl text-emerald-100/90 max-w-2xl leading-relaxed font-medium">
-            Join or create trusted Ajo & Esusu groups with your friends, traders, and colleagues. Track every kobo on a live transparent ledger and collect your payout on time.
+          <p className="mt-4 sm:mt-6 text-xs sm:text-lg text-emerald-100/90 max-w-xl mx-auto leading-relaxed font-medium px-2 sm:px-0">
+            Contribute together, track every kobo in real time, and collect your payout with guaranteed automated protection.
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto">
-            <Link href="/signup">
-              <Button size="lg" className="w-full sm:w-auto h-12 px-8 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/40 rounded-full">
+          <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto px-4 sm:px-0 max-w-xs sm:max-w-none mx-auto">
+            <Link href="/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto h-12 px-7 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/40 rounded-full">
                 Start or Join a Circle
                 <ArrowRight className="ml-2 h-4 w-4 text-slate-950" />
               </Button>
             </Link>
-            <Link href="/how-it-works">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-8 font-bold text-sm rounded-full border-emerald-400/40 text-emerald-100 hover:bg-emerald-500/20 hover:text-white">
+            <Link href="/how-it-works" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 px-7 font-bold text-sm rounded-full border-emerald-400/40 text-emerald-100 hover:bg-emerald-500/20 hover:text-white">
                 See How It Works
               </Button>
             </Link>
           </div>
 
           {/* Quick Trust Badges */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-extrabold text-emerald-200">
-            <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              Guaranteed Escrow Protection
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-6 text-[11px] sm:text-xs font-extrabold text-emerald-200">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
+              <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-400" />
+              Guaranteed Escrow
             </div>
-            <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
-              <Eye className="h-4 w-4 text-emerald-400" />
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
+              <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-400" />
               Live Payout Transparency
             </div>
-            <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
-              <Zap className="h-4 w-4 text-emerald-400" />
-              Always Available Offline
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-400/30 shadow-sm backdrop-blur-md">
+              <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-400" />
+              Available Offline
             </div>
           </div>
 
