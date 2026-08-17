@@ -15,9 +15,9 @@
 | 3 | Authentication System | ✅ COMPLETE | APPROVED |
 | 4 | Core Features Circles | ✅ COMPLETE | APPROVED |
 | 5 | Payments & Edge Functions | ✅ COMPLETE | APPROVED |
-| 6 | Real-Time Glass Ledger | 🟡 IN PROGRESS | PENDING |
-| 7 | PWA & Offline Layer | LOCKED | PENDING |
-| 8 | AI Trust Score & UI Polish | LOCKED | PENDING |
+| 6 | Real-Time Glass Ledger | ✅ COMPLETE | APPROVED |
+| 7 | PWA & Offline Layer | ✅ COMPLETE | APPROVED |
+| 8 | AI Trust Score & UI Polish | 🟡 IN PROGRESS | PENDING |
 | 9 | Documentation & Code Cleanup | LOCKED | PENDING |
 | 10 | Deployment Demo Video Submission | LOCKED | PENDING |
 

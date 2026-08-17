@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { NetworkBanner } from "@/components/layout/NetworkBanner";
+import { InstallPrompt } from "@/components/layout/InstallPrompt";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -43,7 +45,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <NetworkBanner />
         {children}
+        <InstallPrompt />
         <Analytics />
         <SpeedInsights />
       </body>

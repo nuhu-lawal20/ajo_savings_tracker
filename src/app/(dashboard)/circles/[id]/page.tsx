@@ -20,6 +20,7 @@ import {
 import { InviteShareModal } from "@/components/circles/InviteShareModal";
 import { ActivateCircleButton } from "@/components/circles/ActivateCircleButton";
 import { PaymentButton } from "@/components/payments/PaymentButton";
+import { GlassLedger } from "@/components/circles/GlassLedger";
 
 export default async function CircleDetailPage({
   params,
@@ -241,47 +242,15 @@ export default async function CircleDetailPage({
         </Card>
       </div>
 
-      {/* Real-Time Glass Ledger */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold tracking-tight">Real-Time Glass Ledger</h2>
-            <p className="text-xs text-muted-foreground">Transparent immutable log of all peer contributions & payouts</p>
-          </div>
-        </div>
-
-        <Card className="border-border/60 bg-card shadow-sm">
-          <CardContent className="p-4 sm:p-6 space-y-3">
-            {(!transactions || transactions.length === 0) ? (
-              <div className="py-8 text-center text-xs text-muted-foreground">
-                No ledger transactions recorded yet. Once rounds start and contributions are made, records appear live here.
-              </div>
-            ) : (
-              transactions.map((tx: any) => (
-                <div
-                  key={tx.id}
-                  className="flex items-center justify-between py-2.5 border-b border-border/50 last:border-0 text-xs"
-                >
-                  <div>
-                    <p className="font-semibold text-foreground">{tx.profile?.full_name ?? "Member"}</p>
-                    <p className="text-[10px] text-muted-foreground font-mono">
-                      Ref: {tx.paystack_reference} • {new Date(tx.created_at).toLocaleString()}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-emerald-600 dark:text-emerald-400">
-                      ₦{Number(tx.amount).toLocaleString()}
-                    </p>
-                    <Badge variant="outline" className="text-[9px]">
-                      {tx.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))
-            )}
-          </CardContent>
-        </Card>
-      </div>
+      {/* Real-Time Glass Ledger (live Supabase Realtime) */}
+      <GlassLedger
+        circleId={circle.id}
+        initialTransactions={transactions ?? []}
+        initialMembers={members ?? []}
+        contributionAmount={Number(circle.contribution_amount)}
+        maxMembers={circle.max_members}
+        currentRound={circle.current_round}
+      />
     </div>
   );
 }

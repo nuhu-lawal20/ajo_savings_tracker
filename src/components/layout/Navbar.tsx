@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SignOutButton } from "@/components/layout/SignOutButton";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { CircleDollarSign, LayoutDashboard, UserCheck, ShieldCheck } from "lucide-react";
+import { CircleDollarSign, LayoutDashboard, UserCheck, ShieldCheck, Receipt } from "lucide-react";
 
 interface NavbarProps {
   userProfile?: {
@@ -54,6 +54,13 @@ export function Navbar({ userProfile }: NavbarProps) {
             >
               <CircleDollarSign className="h-4 w-4" />
               Circles
+            </Link>
+            <Link
+              href="/transactions"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <Receipt className="h-4 w-4" />
+              Ledger
             </Link>
             <Link
               href="/profile"
