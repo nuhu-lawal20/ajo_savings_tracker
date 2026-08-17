@@ -67,7 +67,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-6 text-base sm:text-xl text-muted-foreground max-w-2xl leading-relaxed font-medium">
-            Alajo digitizes the traditional Nigerian rotating savings (Ajo / Esusu / Adashe) with real-time transparent ledgers, automated Paystack escrow, and AI trust scoring.
+            Automate your rotating savings with 100% fraud protection, live payout tracking, and verified member credit scoring.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto">
@@ -88,15 +88,15 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              100% Paystack Escrow
+              Guaranteed Escrow Protection
             </div>
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <Eye className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              Real-time Glass Ledger
+              Live Payout Transparency
             </div>
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <Zap className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              Offline-First PWA
+              Always Available Offline
             </div>
           </div>
 
@@ -160,10 +160,10 @@ export default function Home() {
           <div className="max-w-6xl mx-auto space-y-8">
             <div className="text-center max-w-2xl mx-auto space-y-2">
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                Engineered for Authentic Nigerian Financial Reality
+                Engineered for Authentic Financial Growth & Security
               </h2>
               <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-                Eliminating fraud, defaults, and opacity with modern software security.
+                Eliminating default risks, mismanagement, and lack of transparency.
               </p>
             </div>
 
@@ -175,7 +175,7 @@ export default function Home() {
                   </div>
                   <h3 className="font-extrabold text-lg">Zero Admin Fraud</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    Funds are secured via automated Paystack escrow. The group organizer never holds, routes, or touches peer funds.
+                    Your money stays in a protected automated vault until rotation payout. Group organizers never have direct custody of peer funds.
                   </p>
                 </CardContent>
               </Card>
@@ -187,7 +187,7 @@ export default function Home() {
                   </div>
                   <h3 className="font-extrabold text-lg">Real-Time Glass Ledger</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    Every contribution and round payout broadcasts live to all members via Supabase Realtime WebSocket channels.
+                    Instant proof of every contribution and payout. Know who has paid, who is next, and when your rotation arrives in real time.
                   </p>
                 </CardContent>
               </Card>
@@ -199,13 +199,14 @@ export default function Home() {
                   </div>
                   <h3 className="font-extrabold text-lg">Offline-First Resiliency</h3>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    View active circles and contribution schedules even during network blackouts via Dexie.js and Workbox service worker caching.
+                    Access your circles, check schedules, and review payment history anytime — even without an active internet connection.
                   </p>
                 </CardContent>
               </Card>
             </div>
           </div>
         </section>
+
       </main>
 
       {/* Footer */}

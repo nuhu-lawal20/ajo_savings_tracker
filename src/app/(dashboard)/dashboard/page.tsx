@@ -123,7 +123,7 @@ export default async function DashboardPage() {
           <CardContent>
             <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">100%</div>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
-              Protected by Paystack Escrow
+              Guaranteed Automated Escrow
             </p>
           </CardContent>
         </Card>
@@ -132,18 +132,19 @@ export default async function DashboardPage() {
         <Card className="glass-vault border-border/40 hover:scale-[1.01] transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              KYC Status
+              Verification Status
             </CardTitle>
             <TrendingUp className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-black text-foreground">Tier {profile?.kyc_tier ?? 1}</div>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
-              Verified with Email OTP
+              Verified Member Profile
             </p>
           </CardContent>
         </Card>
       </div>
+
 
 
       {/* Main Content: Circles & Transactions */}
