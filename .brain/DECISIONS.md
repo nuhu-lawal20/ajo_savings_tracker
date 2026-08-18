@@ -164,3 +164,14 @@ Each entry: Decision → Reason → Alternatives Rejected → Date → Session
 - **Reason:** Eliminates React 19 hydration mismatch warnings on Turbopack App Router SSR.
 - **Date:** 2026-08-17 | **Session:** 5
 
+---
+
+## D017 — Email Authentication Delivery: Built-in Supabase Mailer vs Custom Domain
+- **Decision:** Use Supabase's built-in mailer (`noreply@mail.app.supabase.io`) for Capstone evaluation, demo recording, and user testing. Document Resend Custom Domain setup for commercial production (V2).
+- **Reason:** 
+  - Resend's free developer sandbox (`onboarding@resend.dev`) restricts outgoing emails strictly to the single developer account email (`nuhu7777@gmail.com`), rejecting all other emails with 403 `validation_error`.
+  - Supabase's built-in mailer has zero recipient restrictions — allowing 3MTT judges, evaluators, and any user in Nigeria to sign up with their personal email address (`@gmail.com`, `@yahoo.com`, `@outlook.com`).
+  - Custom emerald-branded 6-digit HTML templates with `{{ .Token }}` are configured in Supabase, giving users a high-end experience without needing a paid custom domain for the academic capstone.
+- **Date:** 2026-08-18 | **Session:** 6
+
+

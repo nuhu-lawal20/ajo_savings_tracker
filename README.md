@@ -137,6 +137,24 @@ See [`.env.example`](.env.example) for all required variables with descriptions.
 - **Upstash Redis** — Rate limiting
 - **Cloudinary** — Avatar CDN
 - **Sentry** — Error tracking
+- **Resend** — Transactional Email delivery
+
+---
+
+## ✉️ Email Authentication & OTP Configuration
+
+Alajo utilizes Supabase Auth OTP (One-Time Password) for passwordless authentication.
+
+### Testing & Evaluation Setup (Default Mailer)
+* **Custom SMTP**: `OFF` in Supabase Project Settings.
+* **Recipient Scope**: Delivers 6-digit verification codes to **any email address** (`@gmail.com`, `@yahoo.com`, `@outlook.com`) with 0 domain setup required.
+* **Email Template**: Uses custom emerald-branded HTML template containing `{{ .Token }}` for 6-digit OTP entry.
+
+### Commercial Production Setup (Custom Domain with Resend)
+* **Custom SMTP**: `ON` with Resend SMTP credentials.
+* **Requirements**: Connect a verified custom domain (e.g. `alajo.ng`) at [resend.com/domains](https://resend.com/domains) to send from `hello@alajo.ng` across public domains.
+* *Note: Resend free developer sandboxes (`onboarding@resend.dev`) strictly limit test delivery to the single registered account owner.*
+
 
 ---
 

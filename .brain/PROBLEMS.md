@@ -1,4 +1,4 @@
-﻿# 🐛 ALAJO — PROBLEMS & SOLUTIONS LOG
+# 🐛 ALAJO — PROBLEMS & SOLUTIONS LOG
 > Every bug, error, or blocker encountered — and exactly how it was fixed.
 > PURPOSE: Never solve the same problem twice.
 
@@ -85,15 +85,30 @@
 
 ---
 
-## 📋 HOW TO LOG A NEW PROBLEM
+## 📋 RESOLVED PROBLEMS LOG
 
-When a new problem is found during development, add:
-
-### P001 — [Title]
-- **Session:** [session number] | **Date:** [date]
-- **Context:** [what were you building?]
-- **Problem:** [exact error message]
-- **Root Cause:** [why did it happen?]
-- **Solution:** [exact steps taken to fix]
-- **Prevention:** [how to avoid next time]
+### P001 — Resend Sandbox Restriction Causing "Error sending confirmation email"
+- **Session:** 6 | **Date:** 2026-08-18
+- **Context:** User was signing up with `nuhulawal20@gmail.com` on the `/signup` screen using Supabase with Custom SMTP configured via Resend.
+- **Problem:** Supabase returned `500 AuthRetryableFetchError: Error sending confirmation email`.
+- **Root Cause:** Resend's free default sandbox (`onboarding@resend.dev`) restricts outgoing emails strictly to the single email registered on the Resend account (`nuhu7777@gmail.com`). Attempts to send to any other recipient return HTTP 403 `validation_error`.
+- **Solution:** 
+  1. For Capstone evaluation & testing: Disabled Custom SMTP in Supabase Dashboard so Supabase's built-in mailer sends to ANY email address with 0 restrictions.
+  2. For Production V2: Developers can purchase/connect a verified custom domain (`alajo.ng`) in Resend to send from `hello@alajo.ng` to any address.
 - **Status:** RESOLVED
+
+### P002 — Network Packet Drop / ECONNRESET Causing "fetch failed"
+- **Session:** 5 | **Date:** 2026-08-17
+- **Context:** Submitting the auth forms during local development when network blips occurred.
+- **Problem:** Client-side JavaScript threw raw `TypeError: fetch failed` without helpful context.
+- **Root Cause:** Server actions and client-side form submission handlers lacked top-level `try...catch` wrappers.
+- **Solution:** Added structured `try...catch` blocks to `src/app/(auth)/actions.ts`, `signup/page.tsx`, `login/page.tsx`, and `verify/page.tsx` with user-friendly retry messages.
+- **Status:** RESOLVED
+
+### P003 — Supabase Default Email Templates Sent Links Instead of 6-Digit Codes
+- **Session:** 5 | **Date:** 2026-08-17
+- **Context:** Verification screen expected a 6-digit number, but Supabase sent a click confirmation link.
+- **Problem:** Default Supabase email templates use `{{ .ConfirmationURL }}` instead of `{{ .Token }}`.
+- **Solution:** Configured emerald-branded custom email templates in Supabase containing `{{ .Token }}` and updated `src/app/auth/callback/route.ts` to handle both token hashes and 6-digit codes.
+- **Status:** RESOLVED
+

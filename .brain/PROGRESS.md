@@ -104,21 +104,17 @@
 
 ---
 
-## SESSION 5 — 2026-08-17 (CURRENT)
-**Focus:** Nigerian Money Aesthetics, Dedicated How-It-Works Page, Codebase Sanitization & Mobile Polish
+## SESSION 6 — 2026-08-18 (CURRENT)
+**Focus:** Auth Resilience, Resend Sandbox Investigation, 6-Digit Email Templates & Living Documentation
 **Agent:** Antigravity
 
 ### ✅ What Was Accomplished
-- **Fixed React 19 Hydration Mismatch**: Refactored `use-network-status.ts` to `useSyncExternalStore` with server snapshots.
-- **Authentic Nigerian Banknote Theme**: Generated high-res Nigerian Naira wallpaper (`/images/naira-bg.jpg`), switched to deep emerald money green (`#021A10`), and applied frosted `glass-vault` styling.
-- **Dynamic Feature Showcase Carousel (`FeatureShowcaseCarousel.tsx`)**: Created 4-step auto-rotating interactive card demonstrating the 4 stages of savings with Nigerian examples.
-- **Created Dedicated `/how-it-works` Page**: 5-step visual walkthrough explaining how Alajo works with guaranteed outcomes, FAQ section, and circular stylish badges.
-- **100% Codebase Sanitization**: Scrubbed all internal library/tech mentions from user-facing screens and metadata, replacing them with pure customer outcomes ("Guaranteed Escrow", "Live Transparent Ledger", "Offline Resilience", "Cryptographically Signed Receipts").
-- **Mobile Responsive Header & Hero**:
-  - Re-spaced hero typography on mobile (`text-2xl font-black leading-[1.3]`) to avoid crowded text.
-  - Aligned and centered mobile navigation with a luminous emerald glowing `Sign In` micro-pill directly below `Get Started`.
-  - Fixed mobile width shift on slide 4 with responsive badge wrapping and padding.
-- **Production Build Status**: Verified `next build` passing with **0 errors** across all **19 routes**.
-- **Ready for Phase 10**: Ready for Vercel deployment, demo video recording, and 3MTT submission.
+- **Hardened Auth Flow**: Added top-level `try...catch` blocks to `src/app/(auth)/actions.ts`, `signup/page.tsx`, `login/page.tsx`, and `verify/page.tsx` with user-friendly network retry prompts.
+- **Investigated & Solved Resend Sandbox 403 Error**: Identified that Resend free sandbox (`onboarding@resend.dev`) strictly allows delivery to `nuhu7777@gmail.com`. Documented the operational trade-offs and confirmed that Supabase's built-in mailer (`Custom SMTP: OFF`) delivers to all Nigerian user emails with zero restrictions.
+- **Custom 6-Digit Emerald Email Template**: Configured the emerald money green 6-digit OTP token template with `{{ .Token }}` in Supabase.
+- **Enhanced Auth Callback Route**: Updated `src/app/auth/callback/route.ts` to handle PKCE code exchange, `token_hash`, and 6-digit OTP verification seamlessly.
+- **Layout Smooth Scrolling**: Added `data-scroll-behavior="smooth"` to `<html>` tag in `src/app/layout.tsx` to ensure smooth client-side transitions without Next.js warnings.
+- **Updated Project Brain & Documentation**: Updated `README.md`, `DECISIONS.md` (D017), `PROBLEMS.md` (P001–P003), and `PROGRESS.md`.
+
 
 
