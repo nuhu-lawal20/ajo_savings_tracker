@@ -23,6 +23,7 @@ import {
   ArrowLeft,
   LayoutDashboard,
   LogIn,
+  HelpCircle,
 } from "lucide-react";
 
 export default async function PublicHowItWorksPage() {
@@ -367,7 +368,100 @@ export default async function PublicHowItWorksPage() {
           </Card>
         </div>
 
-        {/* ── 6. BOTTOM CTA BAR ── */}
+        {/* ── 6. FREQUENTLY ASKED QUESTIONS (FAQ) ── */}
+        <div className="space-y-4">
+          <div className="text-center sm:text-left space-y-1">
+            <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white flex items-center justify-center sm:justify-start gap-2">
+              <HelpCircle className="h-5 w-5 text-[#0284C7]" />
+              Frequently Asked Questions (FAQ)
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              Everything you need to know about automated escrow, trust scores, and rotating payouts.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {/* FAQ 1 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-sky-500/15 text-[#0284C7] dark:text-sky-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                Can the circle organizer take the first payout?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                <strong>No, absolutely never.</strong> Under Kadashe&apos;s <em>Organizer Payout Immunity Law</em>, the circle creator is strictly prevented from receiving Turn #1 under any condition. Turn #1 is guaranteed to the highest-scoring regular member.
+              </p>
+            </Card>
+
+            {/* FAQ 2 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                How does Paystack Zero-Custody Escrow protect my money?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                No human admin or collector touches member funds. All contributions lock in automated Paystack escrow vaults and can only disburse to the scheduled turn recipient once the round is 100% funded.
+              </p>
+            </Card>
+
+            {/* FAQ 3 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-purple-500/15 text-purple-600 dark:text-purple-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                What happens if a member delays or refuses to pay?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                Late payments incur an immediate <strong>-25 point Trust Score deduction</strong>. Chronic defaulters have their accounts frozen by Helper Admins and are barred from participating in future savings circles.
+              </p>
+            </Card>
+
+            {/* FAQ 4 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                Why is BVN or NIN verification required?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                Identity verification enforces CBN Anti-Money Laundering regulations and prevents multi-account fraud. Tier 1 (BVN/NIN) unlocks pools up to ₦1M, Tier 2 unlocks ₦10M, and Tier 3 (CAC) is unlimited.
+              </p>
+            </Card>
+
+            {/* FAQ 5 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                How does the Kadashe Wallet work?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                When you win a payout round, the funds credit instantly into your <strong>Kadashe Wallet</strong>. You can withdraw directly to your verified personal bank account or reuse the balance for 0-fee circle contributions.
+              </p>
+            </Card>
+
+            {/* FAQ 6 */}
+            <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm p-5 space-y-2">
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-start gap-2">
+                <span className="h-5 w-5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  Q
+                </span>
+                Why should I join using an Invite Code instead of pool name?
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed pl-7">
+                Multiple informal pools across Nigeria may share generic names. Entering your organizer&apos;s unique 6-character code (e.g. <span className="font-mono font-bold">KADASHE-XXXXXX</span>) guarantees you enter your exact verified private peer group.
+              </p>
+            </Card>
+          </div>
+        </div>
+
+        {/* ── 7. BOTTOM CTA BAR ── */}
         <div className="p-6 rounded-3xl bg-gradient-to-r from-[#0F2744] via-[#0284C7] to-[#0A1C33] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-base font-black">Ready to Start or Join a Circle?</h3>
