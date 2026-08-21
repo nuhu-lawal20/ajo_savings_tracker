@@ -21,8 +21,12 @@
 /build
 
 # misc
-.DS_Store
-*.pem
+# AI Agent Workspaces & Internal Logs
+.brain/
+AGENTS.md
+CLAUDE.md
+.agent/
+.agents/
 
 # env files and secret bundles (NEVER commit secrets to public repositories)
 .env*
