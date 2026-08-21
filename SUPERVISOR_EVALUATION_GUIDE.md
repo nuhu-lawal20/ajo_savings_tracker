@@ -2,7 +2,10 @@
 > **Project:** Kadashe (*Traditional Adashe. Programmatic Trust.*)  
 > **Fellow:** Nuhu Lawal (`FE/23/84783109` | `nuhulawal20@gmail.com`)  
 > **Track:** Software Development Track — Almara Hub, Paragon Nigeria, Kaduna State  
-> **Live App:** `http://localhost:3000` (or Vercel Production URL)
+> 
+> 🌐 **LIVE PRODUCTION APPLICATION:** [**https://kadashe.vercel.app/**](https://kadashe.vercel.app/)  
+> 📦 **GITHUB REPOSITORY:** [**https://github.com/nuhu-lawal20/ajo_savings_tracker**](https://github.com/nuhu-lawal20/ajo_savings_tracker)  
+> 💻 **LOCAL ENVIRONMENT:** `http://localhost:3000` (if evaluating locally)
 
 ---
 
@@ -73,9 +76,9 @@ To allow supervisors to evaluate the application without waiting for email deliv
 ## 🧪 4. Suggested Supervisor Testing Journeys
 
 ### 🧭 Test Journey 1: Evaluate Helper Admin Moderation
-1. Go to [`http://localhost:3000/login`](http://localhost:3000/login).
+1. Go to [**https://kadashe.vercel.app/login**](https://kadashe.vercel.app/login) (or `http://localhost:3000/login`).
 2. Click **"Helper Admin 1"** on the fast-pass card (or enter `moderator1@kadashe.ng` / `KadasheAdmin2026!`).
-3. You will land directly in the **Platform Governance & Risk Terminal** ([`/admin`](http://localhost:3000/admin)).
+3. You will land directly in the **Platform Governance & Risk Terminal** ([`/admin`](https://kadashe.vercel.app/admin)).
 4. **Actions to Test:**
    * **Freeze Circle:** Click **"❄️ Freeze Circle"** on the live *Kaduna Tech & Market Adashe* card. Notice how it immediately pauses contributions and payouts. Click **"Unfreeze & Restore"** to restore.
    * **Inspect User Dossier:** Click any member (e.g. *Emeka Okafor*) in the Member Directory to view their complete KYC and Trust Score dossier.
@@ -84,8 +87,8 @@ To allow supervisors to evaluate the application without waiting for email deliv
 ---
 
 ### 🧭 Test Journey 2: Evaluate Algorithmic Fairness (Babajide Adeleke)
-1. Sign in with `babajide@kadashe.ng` / `KadasheTest2026!`.
-2. Navigate to [`/dashboard`](http://localhost:3000/dashboard) and [`/circles`](http://localhost:3000/circles).
+1. Sign in with `babajide@kadashe.ng` / `KadasheTest2026!` at [**https://kadashe.vercel.app/login**](https://kadashe.vercel.app/login).
+2. Navigate to [`/dashboard`](https://kadashe.vercel.app/dashboard) and [`/circles`](https://kadashe.vercel.app/circles).
 3. Click into **"Kaduna Tech & Market Adashe"**.
 4. **Actions to Test:**
    * Notice that Babajide holds **Turn #1 (Earliest Payout)** because he has the highest AI Trust Score (**90/100**).
@@ -95,7 +98,7 @@ To allow supervisors to evaluate the application without waiting for email deliv
 ---
 
 ### 🧭 Test Journey 3: Evaluate Circle Organizer (Amina Onize Bello)
-1. Sign in with `amina@kadashe.ng` / `KadasheTest2026!`.
+1. Sign in with `amina@kadashe.ng` / `KadasheTest2026!` at [**https://kadashe.vercel.app/login**](https://kadashe.vercel.app/login).
 2. Open **"Kaduna Tech & Market Adashe"**.
 3. Notice that although Amina created the circle, her **85/100** Trust Score puts her in **Turn #2**, demonstrating complete algorithmic impartiality.
 4. Check the copyable **Circle Invite Code** (`KADA-778899`).
@@ -108,7 +111,7 @@ To allow supervisors to evaluate the application without waiting for email deliv
 > Kadashe features a **Dual-Pillar Financial Engine**: separating **Personal Ready Wallet Cash** from **Zero-Custody Escrow Savings**.
 
 1. Sign in as any member (e.g. `amina@kadashe.ng` or `babajide@kadashe.ng`).
-2. Navigate to **"My Wallet"** ([`/wallet`](http://localhost:3000/wallet)) via the sidebar or bottom navigation.
+2. Navigate to **"My Wallet"** ([`/wallet`](https://kadashe.vercel.app/wallet)) via the sidebar or bottom navigation.
 3. **Actions to Test:**
    * **Test AML Bank Account Name-Matching Security (Live Paystack Verification):**
      1. Click **"Link Bank Account"**.
@@ -124,7 +127,7 @@ To allow supervisors to evaluate the application without waiting for email deliv
 ---
 
 ### 🧭 Test Journey 5: Experience Live Circle Contribution as an Unpaid Member (Chinedu Eze)
-1. Go to [`http://localhost:3000/login`](http://localhost:3000/login).
+1. Go to [**https://kadashe.vercel.app/login**](https://kadashe.vercel.app/login) (or `http://localhost:3000/login`).
 2. Click **"Chinedu Eze (Turn #5 • Unpaid ⏳)"** on the fast-pass card (or enter `chinedu@kadashe.ng` / `KadasheTest2026!`).
 3. **Actions to Test:**
    * Open [`/transactions`](http://localhost:3000/transactions):

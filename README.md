@@ -10,13 +10,22 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/nuhu-lawal20/ajo_savings_tracker"><img src="https://img.shields.io/badge/GitHub-Public-black?logo=github" /></a>
+  <a href="https://kadashe.vercel.app/"><img src="https://img.shields.io/badge/Live_Production_App-kadashe.vercel.app-00C3F7?style=for-the-badge&logo=vercel&logoColor=white" /></a>
+  <a href="https://github.com/nuhu-lawal20/ajo_savings_tracker"><img src="https://img.shields.io/badge/GitHub-Public_Repo-black?style=for-the-badge&logo=github" /></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" />
   <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase" />
   <img src="https://img.shields.io/badge/Paystack-Escrow-00C3F7?logo=paystack" />
   <img src="https://img.shields.io/badge/PWA-Offline--First-5A0FC8?logo=pwa" />
   <img src="https://img.shields.io/badge/3MTT-NextGen%20Capstone-green" />
 </p>
+
+> [!IMPORTANT]
+> 🌐 **LIVE PRODUCTION APP:** [**https://kadashe.vercel.app/**](https://kadashe.vercel.app/)  
+> 📘 **SUPERVISOR EVALUATION GUIDE:** [`SUPERVISOR_EVALUATION_GUIDE.md`](./SUPERVISOR_EVALUATION_GUIDE.md)  
+> 📦 **GITHUB REPO:** [**https://github.com/nuhu-lawal20/ajo_savings_tracker**](https://github.com/nuhu-lawal20/ajo_savings_tracker)
 
 ---
 
@@ -131,7 +140,7 @@ $$\text{Trust Score} = \text{Base (30)} + \text{KYC Boost (up to +40)} + \text{P
 
 ---
 
-## 👨‍💻 9. Fellow Information
+## 👨‍💻 9. Fellow & Project Information
 
 | Field | Value |
 |---|---|
@@ -140,6 +149,8 @@ $$\text{Trust Score} = \text{Base (30)} + \text{KYC Boost (up to +40)} + \text{P
 | **Email** | nuhulawal20@gmail.com |
 | **Track** | Software Development — 3MTT NextGen Capstone |
 | **ALC Center** | Almara Hub - Paragon Nigeria, Kaduna State |
+| **Live Production App** | [**https://kadashe.vercel.app/**](https://kadashe.vercel.app/) |
+| **GitHub Repository** | [**https://github.com/nuhu-lawal20/ajo_savings_tracker**](https://github.com/nuhu-lawal20/ajo_savings_tracker) |
 
 ---
 
