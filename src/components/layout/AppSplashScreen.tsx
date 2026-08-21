@@ -8,17 +8,25 @@ export function AppSplashScreen() {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Check if splash was already shown in this session
-    const hasShown = sessionStorage.getItem("kadashe_splash_shown");
+    let hasShown = false;
+    try {
+      hasShown = sessionStorage.getItem("kadashe_splash_shown") === "1";
+    } catch {
+      // Ignore storage restrictions
+    }
     
-    // Show splash for 1.1 seconds on initial app load / PWA launch
+    // Show splash briefly on initial app load / PWA launch
     const timer = setTimeout(() => {
       setFadeOut(true);
       setTimeout(() => {
         setShowSplash(false);
-        sessionStorage.setItem("kadashe_splash_shown", "1");
-      }, 500); // 500ms fade duration
-    }, hasShown ? 350 : 1100);
+        try {
+          sessionStorage.setItem("kadashe_splash_shown", "1");
+        } catch {
+          // Ignore storage restrictions
+        }
+      }, 400); // 400ms fade duration
+    }, hasShown ? 200 : 900);
 
     return () => clearTimeout(timer);
   }, []);

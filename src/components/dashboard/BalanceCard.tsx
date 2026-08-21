@@ -25,16 +25,24 @@ export function BalanceCard({
   const [isMasked, setIsMasked] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem("kadashe_hide_balance");
-    if (saved === "true") {
-      setIsMasked(true);
+    try {
+      const saved = localStorage.getItem("kadashe_hide_balance");
+      if (saved === "true") {
+        setIsMasked(true);
+      }
+    } catch {
+      // Ignore storage restrictions
     }
   }, []);
 
   function toggleMask() {
     const newState = !isMasked;
     setIsMasked(newState);
-    localStorage.setItem("kadashe_hide_balance", String(newState));
+    try {
+      localStorage.setItem("kadashe_hide_balance", String(newState));
+    } catch {
+      // Ignore storage restrictions
+    }
   }
 
   const formattedWallet =

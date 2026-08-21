@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NetworkBanner } from "@/components/layout/NetworkBanner";
 import { InstallPrompt } from "@/components/layout/InstallPrompt";
 import { AppSplashScreen } from "@/components/layout/AppSplashScreen";
+import { ServiceWorkerRegister } from "@/components/layout/ServiceWorkerRegister";
 import "./globals.css";
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -24,7 +25,16 @@ export const metadata: Metadata = {
   title: "Kadashe — Nigerian Smart Rotating Savings & Credit (Adashe)",
   description:
     "Automated and secure Nigerian rotating savings circles (Adashe/Ajo/Esusu). 100% locked escrow protection, transparent live ledgers, and automated on-time payouts.",
+  applicationName: "Kadashe",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Kadashe",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -60,6 +70,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col naira-pattern text-foreground selection:bg-[#0284C7] selection:text-white"
       >
+        <ServiceWorkerRegister />
         <AppSplashScreen />
         <NetworkBanner />
         {children}

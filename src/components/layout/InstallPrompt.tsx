@@ -16,11 +16,15 @@ export function InstallPrompt() {
 
   useEffect(() => {
     // Check if already dismissed in this session
-    const alreadyDismissed = sessionStorage.getItem("kadashe-install-dismissed");
-    if (alreadyDismissed) return;
+    try {
+      const alreadyDismissed = sessionStorage.getItem("kadashe-install-dismissed");
+      if (alreadyDismissed) return;
+    } catch {
+      // Ignore storage restrictions
+    }
 
     // Check if already installed (display-mode: standalone)
-    if (window.matchMedia("(display-mode: standalone)").matches) return;
+    if (typeof window !== "undefined" && window.matchMedia("(display-mode: standalone)").matches) return;
 
     function handler(e: Event) {
       e.preventDefault();
@@ -45,7 +49,11 @@ export function InstallPrompt() {
   function handleDismiss() {
     setDismissed(true);
     setVisible(false);
-    sessionStorage.setItem("kadashe-install-dismissed", "true");
+    try {
+      sessionStorage.setItem("kadashe-install-dismissed", "true");
+    } catch {
+      // Ignore storage restrictions
+    }
   }
 
   return (
