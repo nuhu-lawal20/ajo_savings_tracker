@@ -22,6 +22,10 @@
 .DS_Store
 *.pem
 
+# Internal Utility Scripts & Database Provisioning (Kept local, never on public GitHub)
+scripts/
+supabase/
+
 # AI Agent Workspaces & Internal Logs (NEVER commit to public git)
 .brain/
 AGENTS.md
@@ -30,7 +34,6 @@ CLAUDE.md
 .agents/
 *.docx
 *.doc
-scripts/generate_submission_doc.py
 
 # env files and secret bundles (NEVER commit secrets to public repositories)
 .env*
