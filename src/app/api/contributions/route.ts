@@ -24,30 +24,41 @@ export async function POST(request: Request) {
 
     const { circleId, amount } = parsed.data;
 
-    // Fetch circle and user's membership
-    const { data: circle, error: circleError } = await supabase
+    const adminDb = (await import("@/lib/supabase/admin")).createAdminClient();
+
+    // 1. Fetch circle
+    const { data: circle, error: circleError } = await adminDb
       .from("circles")
-      .select("*, memberships!inner(*)")
+      .select("*")
       .eq("id", circleId)
-      .eq("memberships.user_id", user.id)
       .single();
 
     if (circleError || !circle) {
-      return NextResponse.json({ error: "Circle or membership not found" }, { status: 404 });
+      return NextResponse.json({ error: "Circle not found" }, { status: 404 });
     }
 
     if (circle.status !== "active") {
       return NextResponse.json({ error: "Contributions can only be made to active circles" }, { status: 400 });
     }
 
-    const membership = circle.memberships[0];
+    // 2. Fetch user membership
+    const { data: membership, error: memError } = await adminDb
+      .from("memberships")
+      .select("*")
+      .eq("circle_id", circleId)
+      .eq("user_id", user.id)
+      .single();
 
-    // Generate unique Paystack reference (e.g. ALAJO-TX-XXXXX)
+    if (memError || !membership) {
+      return NextResponse.json({ error: "You are not a member of this circle" }, { status: 403 });
+    }
+
+    // Generate unique Paystack reference (e.g. KADASHE-TX-XXXXX)
     const refUnique = crypto.randomBytes(6).toString("hex").toUpperCase();
-    const paystackReference = `ALAJO-TX-${circleId.slice(0, 4)}-${refUnique}`;
+    const paystackReference = `KADASHE-TX-${circleId.slice(0, 4)}-${refUnique}`;
 
     // Create pending transaction record
-    const { data: transaction, error: txError } = await supabase
+    const { data: transaction, error: txError } = await adminDb
       .from("transactions")
       .insert({
         circle_id: circleId,

@@ -10,7 +10,16 @@ export function useCircleRealtime(circleId: string, initialTransactions: any[], 
   const [newEventRowId, setNewEventRowId] = useState<string | null>(null);
 
   useEffect(() => {
+    setTransactions(initialTransactions);
+  }, [initialTransactions]);
+
+  useEffect(() => {
+    setMembers(initialMembers);
+  }, [initialMembers]);
+
+  useEffect(() => {
     const supabase = createClient();
+
 
     // Create unique subscription channel for this circle
     const channel = supabase

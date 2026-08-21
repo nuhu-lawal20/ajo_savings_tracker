@@ -16,7 +16,7 @@ export function InstallPrompt() {
 
   useEffect(() => {
     // Check if already dismissed in this session
-    const alreadyDismissed = sessionStorage.getItem("alajo-install-dismissed");
+    const alreadyDismissed = sessionStorage.getItem("kadashe-install-dismissed");
     if (alreadyDismissed) return;
 
     // Check if already installed (display-mode: standalone)
@@ -45,18 +45,19 @@ export function InstallPrompt() {
   function handleDismiss() {
     setDismissed(true);
     setVisible(false);
-    sessionStorage.setItem("alajo-install-dismissed", "true");
+    sessionStorage.setItem("kadashe-install-dismissed", "true");
   }
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-[99] sm:left-auto sm:right-4 sm:w-80 rounded-2xl bg-card border border-border shadow-xl p-4 space-y-3 animate-in slide-in-from-bottom-4 duration-300">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2.5">
-          <div className="h-10 w-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-emerald-600/25 shrink-0">
-            A
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#0F2744] to-[#0284C7] border border-sky-500/30 flex flex-col items-center justify-center font-black leading-none text-white text-[10px] shadow-md shrink-0">
+            <span className="text-sky-300 font-extrabold text-[9px]">KADA</span>
+            <span className="text-white font-black text-[9px]">DASHE</span>
           </div>
           <div>
-            <p className="text-sm font-bold text-foreground">Install Alajo</p>
+            <p className="text-sm font-bold text-foreground">Install Kadashe</p>
             <p className="text-xs text-muted-foreground">Works offline — add to home screen</p>
           </div>
         </div>
@@ -71,10 +72,10 @@ export function InstallPrompt() {
 
       <Button
         onClick={handleInstall}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold gap-1.5"
+        className="w-full bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-semibold gap-1.5 rounded-full h-9"
       >
         <Download className="h-3.5 w-3.5" />
-        Add Alajo to Home Screen
+        Add Kadashe to Home Screen
       </Button>
     </div>
   );

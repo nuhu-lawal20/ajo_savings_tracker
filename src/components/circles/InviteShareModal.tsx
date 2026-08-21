@@ -59,7 +59,7 @@ export function InviteShareModal({
             {/* Invite Code Box */}
             <div className="p-3 rounded-lg bg-muted text-center space-y-1">
               <p className="text-[11px] text-muted-foreground uppercase font-semibold">Circle Code</p>
-              <p className="font-mono text-2xl font-extrabold tracking-widest text-emerald-600 dark:text-emerald-400">
+              <p className="font-mono text-2xl font-extrabold tracking-widest text-[#0284C7] dark:text-sky-400">
                 {inviteCode}
               </p>
             </div>
@@ -75,7 +75,7 @@ export function InviteShareModal({
                 type="button"
                 size="sm"
                 onClick={handleCopy}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0 gap-1.5"
+                className="bg-[#0284C7] hover:bg-[#0369A1] text-white shrink-0 gap-1.5 rounded-full"
               >
                 {copied ? (
                   <>

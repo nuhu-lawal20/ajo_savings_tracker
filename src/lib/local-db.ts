@@ -32,13 +32,13 @@ export interface SyncQueueItem {
   created_at: string;
 }
 
-class AlajoLocalDB extends Dexie {
+class KadasheLocalDB extends Dexie {
   circles!: Table<LocalCircle>;
   transactions!: Table<LocalTransaction>;
   syncQueue!: Table<SyncQueueItem>;
 
   constructor() {
-    super("alajoDB");
+    super("kadasheDB");
 
     this.version(1).stores({
       circles: "id, status, creator_id",
@@ -48,7 +48,7 @@ class AlajoLocalDB extends Dexie {
   }
 }
 
-export const localDB = new AlajoLocalDB();
+export const localDB = new KadasheLocalDB();
 
 // --- Mirror helpers ---
 

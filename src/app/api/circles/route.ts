@@ -55,12 +55,73 @@ export async function POST(request: Request) {
 
     const { name, description, contributionAmount, frequency, maxMembers } = parsed.data;
 
-    // Generate unique 8-character invite code (e.g. ALAJO-9X2P)
+    // Fetch Creator's KYC Tier, Trust Score & Admin Status
+    const { data: creatorProfile, error: profileFetchError } = await supabase
+      .from("profiles")
+      .select("kyc_tier, trust_score, is_admin")
+      .eq("id", user.id)
+      .single();
+
+    const kycTier = creatorProfile?.kyc_tier ?? 1;
+    const trustScore = creatorProfile?.trust_score ?? 50;
+    const isAdmin = creatorProfile?.is_admin === true;
+
+    // Segregation of Duties: Admins cannot create consumer savings circles
+    if (isAdmin) {
+      return NextResponse.json(
+        {
+          error:
+            "Segregation of Duties Policy: Administrative accounts are strictly restricted to platform oversight and fraud moderation. To create a personal savings circle, please use a verified regular member profile.",
+        },
+        { status: 403 }
+      );
+    }
+
+    // Enforce Risk Tier Limits (Total Pool = contributionAmount * maxMembers):
+    // Unverified (kycTier < 1): View only. Must verify BVN/NIN (Tier 1)
+    // Tier 1 (kycTier === 1): Max ₦1,000,000 total pool payout
+    // Tier 2 (kycTier === 2): Max ₦10,000,000 total pool payout (Gov ID & Biometrics)
+    // Tier 3 (kycTier >= 3): CAC Registration (Unlimited)
+    const totalPoolAmount = contributionAmount * maxMembers;
+
+    if (kycTier < 1) {
+      return NextResponse.json(
+        {
+          error: "Identity verification is strictly required before creating a savings circle. Please verify your 11-digit BVN or NIN to unlock Tier 1 verified circle creation (Max ₦1,000,000 pool).",
+          requiredTier: 1,
+        },
+        { status: 403 }
+      );
+    }
+    if (kycTier === 1 && totalPoolAmount > 1000000) {
+      return NextResponse.json(
+        {
+          error: `Tier 1 accounts are limited to ₦1,000,000 total pool payout (this circle totals ₦${totalPoolAmount.toLocaleString()}). Upgrade to Tier 2 (Government ID & Biometrics) for pools up to ₦10,000,000.`,
+          requiredTier: 2,
+        },
+        { status: 403 }
+      );
+    }
+    if (kycTier === 2 && totalPoolAmount > 10000000) {
+      return NextResponse.json(
+        {
+          error: `Tier 2 accounts are limited to ₦10,000,000 total pool payout (this circle totals ₦${totalPoolAmount.toLocaleString()}). Upgrade to Tier 3 (CAC Registration) for unlimited pool amounts.`,
+          requiredTier: 3,
+        },
+        { status: 403 }
+      );
+    }
+
+
+
+    // Generate unique 8-character invite code (e.g. KADASHE-9X2P)
     const randomHex = crypto.randomBytes(3).toString("hex").toUpperCase();
-    const inviteCode = `ALAJO-${randomHex}`;
+    const inviteCode = `KADASHE-${randomHex}`;
+
+    const adminDb = (await import("@/lib/supabase/admin")).createAdminClient();
 
     // Insert Circle
-    const { data: circle, error: circleError } = await supabase
+    const { data: circle, error: circleError } = await adminDb
       .from("circles")
       .insert({
         creator_id: user.id,
@@ -80,11 +141,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: circleError.message }, { status: 500 });
     }
 
-    // Auto-assign Creator as Member #1 (Payout Position 1)
-    const { error: memberError } = await supabase.from("memberships").insert({
+    // Anti-Organizer Favoritism Law:
+    // Organizer can NEVER take Position #1. Temporary slot is set to last position until pool is filled and algorithm finalizes all positions.
+    const creatorPosition = maxMembers;
+
+    // Auto-assign Creator
+    const { error: memberError } = await adminDb.from("memberships").insert({
       circle_id: circle.id,
       user_id: user.id,
-      payout_position: 1,
+      payout_position: creatorPosition,
       has_paid_current_round: false,
       payout_status: "pending",
     });

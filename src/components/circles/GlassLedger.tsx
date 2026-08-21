@@ -4,7 +4,6 @@ import { useCircleRealtime } from "@/hooks/use-circle-realtime";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
 import { Activity, ArrowDownLeft, ArrowUpRight, CheckCircle2, Clock, Sparkles, Wifi, WifiOff } from "lucide-react";
 
 interface GlassLedgerProps {
@@ -47,31 +46,30 @@ export function GlassLedger({
   return (
     <div className="space-y-6">
       {/* Live Connection & Progress Header */}
-      <Card className="glass-vault border-border/40 shadow-md">
-        <CardHeader className="pb-3">
+      <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
+        <CardHeader className="pb-3 border-b border-[#e1e8f0]/60 dark:border-sky-500/15">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <CardTitle className="text-base font-bold flex items-center gap-2">
-                <Activity className="h-4 w-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
+              <CardTitle className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <Activity className="h-4 w-4 text-[#0284C7] dark:text-sky-400 animate-pulse" />
                 Round #{currentRound} Escrow Pool Progress
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-xs text-muted-foreground mt-0.5">
                 {paidMembersCount} of {maxMembers} members have completed contributions for this round
               </CardDescription>
             </div>
 
             <div className="flex items-center gap-2">
               <Badge
-                variant="outline"
-                className={`text-[10px] px-2.5 py-0.5 rounded-full flex items-center gap-1.5 ${
+                className={`text-[10px] px-2.5 py-0.5 rounded-full flex items-center gap-1.5 border-0 ${
                   isConnected
-                    ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 font-bold"
-                    : "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-500/30 font-bold"
+                    ? "bg-sky-100 dark:bg-sky-500/20 text-[#0284C7] dark:text-sky-300 font-bold"
+                    : "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 font-bold"
                 }`}
               >
                 {isConnected ? (
                   <>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#0284C7] animate-ping" />
                     <span>Real-time Live</span>
                   </>
                 ) : (
@@ -85,18 +83,18 @@ export function GlassLedger({
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-3">
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="font-bold text-muted-foreground">Collected in Escrow:</span>
-              <span className="font-black text-emerald-600 dark:text-emerald-400 text-sm">
+        <CardContent className="p-4 sm:p-6 space-y-3">
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs items-center">
+              <span className="font-bold text-slate-700 dark:text-slate-300">Collected in Escrow:</span>
+              <span className="font-black text-[#0284C7] dark:text-sky-400 text-sm sm:text-base">
                 ₦{totalCollected.toLocaleString()}{" "}
                 <span className="text-muted-foreground font-semibold text-xs">/ ₦{targetRoundTotal.toLocaleString()}</span>
               </span>
             </div>
-            <div className="h-3 w-full bg-muted rounded-full overflow-hidden p-0.5 border border-border/40">
+            <div className="h-3 w-full bg-[#f4f7fb] dark:bg-sky-950/60 rounded-full overflow-hidden p-0.5 border border-[#e1e8f0] dark:border-sky-500/20">
               <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-700 rounded-full shadow-sm shadow-emerald-500/30"
+                className="h-full bg-gradient-to-r from-[#0F2744] via-[#0284C7] to-[#38BDF8] transition-all duration-700 rounded-full shadow-xs"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -105,24 +103,24 @@ export function GlassLedger({
       </Card>
 
       {/* Real-Time Glass Ledger Records */}
-      <Card className="glass-vault border-border/40 shadow-md">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base font-bold flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+      <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm overflow-hidden">
+        <CardHeader className="pb-3 border-b border-[#e1e8f0]/60 dark:border-sky-500/15">
+          <CardTitle className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-[#0284C7] dark:text-sky-400" />
             Transparent Glass Ledger
           </CardTitle>
-          <CardDescription className="text-xs">
+          <CardDescription className="text-xs text-muted-foreground mt-0.5">
             Every peer payment, timestamp, and payout event broadcasts live to all members
           </CardDescription>
         </CardHeader>
 
         <CardContent className="p-0">
           {transactions.length === 0 ? (
-            <div className="py-12 text-center text-xs text-muted-foreground">
+            <div className="py-12 text-center text-xs text-muted-foreground font-medium">
               No transactions recorded for this circle yet. Payments will show live in real-time.
             </div>
           ) : (
-            <div className="divide-y divide-border/60">
+            <div className="divide-y divide-[#e1e8f0]/60 dark:divide-sky-500/15">
               {transactions.map((tx) => {
                 const isRecent = tx.id === newEventRowId;
                 const isContribution = tx.type === "contribution";
@@ -132,16 +130,16 @@ export function GlassLedger({
                     key={tx.id}
                     className={`p-4 flex items-center justify-between transition-colors duration-1000 ${
                       isRecent
-                        ? "bg-emerald-100/70 dark:bg-emerald-950/70"
-                        : "hover:bg-muted/30"
+                        ? "bg-sky-50 dark:bg-sky-950/50"
+                        : "hover:bg-[#f4f7fb]/60 dark:hover:bg-sky-950/20"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className={`h-9 w-9 rounded-full flex items-center justify-center ${
+                        className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${
                           isContribution
-                            ? "bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400"
-                            : "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400"
+                            ? "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                            : "bg-sky-50 dark:bg-sky-500/15 text-[#0284C7] dark:text-sky-400"
                         }`}
                       >
                         {isContribution ? (
@@ -153,34 +151,34 @@ export function GlassLedger({
 
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="text-xs font-bold text-foreground">
+                          <p className="text-xs font-black text-slate-900 dark:text-white">
                             {tx.profile?.full_name ?? "Circle Member"}
                           </p>
-                          <Badge variant="outline" className="text-[9px] capitalize">
+                          <Badge className="bg-[#f4f7fb] dark:bg-sky-950/40 text-slate-700 dark:text-slate-300 border border-[#e1e8f0] dark:border-sky-500/20 text-[9px] capitalize px-1.5 py-0 font-bold">
                             {tx.type} • Round #{tx.round_number}
                           </Badge>
                         </div>
                         <p className="text-[10px] text-muted-foreground font-mono mt-0.5">
-                          Receipt: {tx.paystack_reference} • {new Date(tx.created_at).toLocaleTimeString()}
+                          Ref: {tx.paystack_reference} • {new Date(tx.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                     </div>
 
                     <div className="text-right space-y-1">
                       <p
-                        className={`text-xs font-extrabold ${
-                          isContribution ? "text-foreground" : "text-emerald-600 dark:text-emerald-400"
+                        className={`text-xs font-black ${
+                          isContribution ? "text-slate-900 dark:text-white" : "text-[#0284C7] dark:text-sky-400"
                         }`}
                       >
                         ₦{Number(tx.amount).toLocaleString()}
                       </p>
                       <Badge
-                        className={`text-[9px] px-2 py-0 ${
+                        className={`text-[9px] px-2 py-0 border-0 ${
                           tx.status === "confirmed"
-                            ? "bg-emerald-600 text-white"
+                            ? "bg-sky-100 dark:bg-sky-500/20 text-[#0284C7] dark:text-sky-300 font-bold"
                             : tx.status === "pending"
-                            ? "bg-amber-500 text-white"
-                            : "bg-red-500 text-white"
+                            ? "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 font-bold"
+                            : "bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-300 font-bold"
                         }`}
                       >
                         {tx.status}

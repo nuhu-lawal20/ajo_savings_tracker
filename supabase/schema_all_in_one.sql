@@ -83,16 +83,10 @@ ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
 
 -- Profiles Policies
 DROP POLICY IF EXISTS "Users can view own profile and circle peers" ON public.profiles;
-CREATE POLICY "Users can view own profile and circle peers"
+DROP POLICY IF EXISTS "Users can view profiles" ON public.profiles;
+CREATE POLICY "Users can view profiles"
 ON public.profiles FOR SELECT TO authenticated
-USING (
-    auth.uid() = id
-    OR EXISTS (
-        SELECT 1 FROM public.memberships m1
-        JOIN public.memberships m2 ON m1.circle_id = m2.circle_id
-        WHERE m1.user_id = auth.uid() AND m2.user_id = profiles.id
-    )
-);
+USING (true);
 
 DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
 CREATE POLICY "Users can update own profile"
@@ -101,16 +95,12 @@ USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
 
 -- Circles Policies
 DROP POLICY IF EXISTS "Users can view joined or public invite circles" ON public.circles;
-CREATE POLICY "Users can view joined or public invite circles"
+DROP POLICY IF EXISTS "Users can view circles" ON public.circles;
+CREATE POLICY "Users can view circles"
 ON public.circles FOR SELECT TO authenticated
 USING (
     creator_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.memberships
-        WHERE memberships.circle_id = circles.id
-        AND memberships.user_id = auth.uid()
-    )
-    OR status IN ('pending', 'active')
+    OR status IN ('pending', 'active', 'completed')
 );
 
 DROP POLICY IF EXISTS "Users can create circles" ON public.circles;
@@ -125,19 +115,14 @@ USING (creator_id = auth.uid()) WITH CHECK (creator_id = auth.uid());
 
 -- Memberships Policies
 DROP POLICY IF EXISTS "Members can view circle memberships" ON public.memberships;
-CREATE POLICY "Members can view circle memberships"
+DROP POLICY IF EXISTS "Users can view memberships" ON public.memberships;
+CREATE POLICY "Users can view memberships"
 ON public.memberships FOR SELECT TO authenticated
 USING (
     user_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.circles
-        WHERE circles.id = memberships.circle_id
-        AND circles.creator_id = auth.uid()
-    )
-    OR EXISTS (
-        SELECT 1 FROM public.memberships m
-        WHERE m.circle_id = memberships.circle_id
-        AND m.user_id = auth.uid()
+    OR circle_id IN (
+        SELECT id FROM public.circles
+        WHERE creator_id = auth.uid() OR status IN ('pending', 'active', 'completed')
     )
 );
 
@@ -148,14 +133,14 @@ WITH CHECK (user_id = auth.uid());
 
 -- Transactions Policies (Glass Ledger)
 DROP POLICY IF EXISTS "Circle members can view transactions" ON public.transactions;
-CREATE POLICY "Circle members can view transactions"
+DROP POLICY IF EXISTS "Users can view transactions" ON public.transactions;
+CREATE POLICY "Users can view transactions"
 ON public.transactions FOR SELECT TO authenticated
 USING (
     user_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.memberships
-        WHERE memberships.circle_id = transactions.circle_id
-        AND memberships.user_id = auth.uid()
+    OR circle_id IN (
+        SELECT id FROM public.circles
+        WHERE creator_id = auth.uid() OR status IN ('pending', 'active', 'completed')
     )
 );
 

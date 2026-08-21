@@ -1,7 +1,7 @@
 {
-  "name": "Alajo — Digital Savings Circle",
-  "short_name": "Alajo",
-  "description": "Offline-first PWA for digitized Nigerian rotating savings with programmatic trust.",
+  "name": "Kadashe — Smart Rotating Savings (Adashe)",
+  "short_name": "Kadashe",
+  "description": "Offline-first PWA for digitized Nigerian rotating savings with automated escrow and live glass ledger.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#090d16",

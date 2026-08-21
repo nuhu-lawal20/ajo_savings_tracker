@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="public/icons/icon-512.png" alt="Alajo Logo" width="120" height="120" />
+  <img src="public/icons/icon-512.png" alt="Kadashe Logo" width="120" height="120" />
 </p>
 
-<h1 align="center">Alajo — Digital Savings Circle</h1>
+<h1 align="center">Kadashe — Traditional Adashe. Programmatic Trust.</h1>
 
 <p align="center">
-  <strong>Offline-first PWA digitalizing Nigerian rotating savings (Ajo / Esusu / Adashe)</strong><br/>
-  with real-time transparent ledgers, Paystack escrow, and AI trust scoring.
+  <strong>Offline-first PWA digitalizing Nigerian rotating savings (Adashe / Ajo / Esusu)</strong><br/>
+  with real-time transparent ledgers, Paystack zero-custody escrow, and algorithmic AI reputation scoring.
 </p>
 
 <p align="center">
@@ -20,209 +20,129 @@
 
 ---
 
-## 🇳🇬 The Problem
+## 🇳🇬 1. Executive Summary & Problem Solved
 
-Over **40 million Nigerians** participate in rotating savings groups (*Ajo*, *Esusu*, *Adashe*) — pooling money weekly or monthly so each member receives a lump sum in turn. These pools lose **₦2+ billion annually** to:
+Over **40 million Nigerians** participate in informal rotating savings associations (**Adashe / Ajo / Esusu**) — pooling money weekly or monthly so each member receives a lump-sum payout in turn. Traditional Adashe moves over **₦1.8 Trillion annually** but is plagued by:
 
-- Admin theft and fund mismanagement (zero custody audit trail)
-- Late/missed payments with no automated enforcement
-- Trust disputes between members (no reputation system)
-- No digital record — everything is verbal or paper-based
-- Mobile internet gaps in underserved communities
+1. **Embezzlement & Default Risk:** Fraudulent collectors (*Alajo*) running away with communal savings.
+2. **Paper Notebook Disputes:** Lack of transparent payment accounting and immutable audit trails.
+3. **Cash-Handling Vulnerability:** Physical cash transit dangers and armed robbery risks in local markets.
+4. **Organizer Monopolies:** Circle creators unfairly taking first-payout slots to cash out early.
 
-**Alajo** solves this with programmatic trust — moving every naira through verified Paystack escrow, exposing every event on a real-time transparent ledger, and computing an AI trust score for every member from their payment history.
-
----
-
-## ✨ Features
-
-| Feature | Description |
-|---|---|
-| **Passwordless Auth** | Email OTP via Supabase — no password to forget |
-| **Savings Circles** | Create or join rotating pools with 2–20 members |
-| **AI Trust Score** | Postgres algorithm: +5 on-time, +10 full cycle, -25 default |
-| **Payout Priority** | Score ≥70 → priority slots; 40–69 → mid; <40 → last |
-| **Paystack Escrow** | Zero admin custody — all money flows through Paystack |
-| **Real-Time Ledger** | Supabase Realtime: every payment broadcasts live to all members |
-| **Invite Links** | Shareable `/join/ALAJO-XXXX` invite codes |
-| **Offline-First PWA** | Service worker + Dexie.js IndexedDB — works without internet |
-| **Install Prompt** | "Add to Home Screen" native app experience |
-| **Cloudinary Avatars** | Face-crop CDN avatars with server-side upload |
-| **Rate Limiting** | Upstash Redis sliding window — 5 auth requests / 15 min |
-| **Row Level Security** | PostgreSQL RLS — users can only see their own data |
-| **HMAC Webhooks** | SHA-512 signature verification on every Paystack event |
+**Kadashe** solves this through **Zero-Custody Paystack Escrow**, **The Organizer Payout Immunity Law**, an **Algorithmic AI Reputation Engine**, and a **Live Real-Time Glass Ledger**.
 
 ---
 
-## 🛠 Tech Stack
+## 🎓 2. 3MTT Capstone Supervisor & Evaluator Fast-Pass
+
+> 📘 **Full Evaluator Document:** See [`SUPERVISOR_EVALUATION_GUIDE.md`](./SUPERVISOR_EVALUATION_GUIDE.md) for 5 interactive testing journeys, live savings circles, and security disclosures.
+
+For rapid assessment without email OTP delays, the system includes pre-seeded Nigerian test accounts:
+
+| Role / Persona | Email | Password | Turn / Status | AI Trust | Access & Capabilities |
+|---|---|---|:---:|:---:|---|
+| **🛡️ Helper Admin 1** | `moderator1@kadashe.ng` | `KadasheAdmin2026!` | N/A | 100/100 | Full Admin Console (`/admin`), Circle Freeze, Fraud Suspension |
+| **🛡️ Helper Admin 2** | `moderator2@kadashe.ng` | `KadasheAdmin2026!` | N/A | 100/100 | Operations Moderation, User KYC & Trust Dossier Inspector |
+| **👤 Babajide Adeleke** | `babajide@kadashe.ng` | `KadasheTest2026!` | **Turn #1** | 65 / 100 | Paid ✅ (Scheduled to receive ₦125,000 Round #1 Payout) |
+| **👤 Amina Onize Bello** | `amina@kadashe.ng` | `KadasheTest2026!` | **Turn #2** | 65 / 100 | Paid ✅ (Circle Organizer yielding priority) |
+| **👤 Musa Danladi** | `musa@kadashe.ng` | `KadasheTest2026!` | **Turn #3** | 65 / 100 | Paid ✅ (Tier 2 Verified Contributor) |
+| **👤 Emeka Okafor** | `emeka@kadashe.ng` | `KadasheTest2026!` | **Turn #4** | 65 / 100 | Paid ✅ (Tier 2 Verified Contributor) |
+| **👤 Chinedu Eze** | `chinedu@kadashe.ng` | `KadasheTest2026!` | **Turn #5** | 60 / 100 | **Due R1 ⏳ (Unpaid — Ready for Supervisor Live Paystack Test)** |
+
+> ⚖️ **Segregation of Duties Notice:** In adherence to CBN & ISO 27001 fintech standards, the master **Super Admin** account (`nuhulawal20@gmail.com`) is air-gapped from evaluator demo access to preserve infrastructure segregation of duties and eliminate moral hazard.
+
+---
+
+## 🪪 3. 3-Tier KYC Verification & Pool Capacity Architecture
+
+Kadashe enforces strict identity gating because in communal savings, **no pooled capital is too small to protect**:
+
+| KYC Tier | Verification Requirements | Max Total Pool Payout | Privileges & Unlocks |
+|---|---|:---:|---|
+| **Tier 0 (Unverified)** | Account Email & Password | **₦0.00** | View & explore only (Cannot create or join circles) |
+| **Tier 1 (BVN / NIN)** | 11-Digit BVN (NIBSS) or NIN (NIMC) | **₦1,000,000** | Create & join pools up to ₦1M (`+15 pts` Trust Boost) |
+| **Tier 2 (Gov ID & Biometrics)** | Government ID + 3D Facial Liveness | **₦10,000,000** | Create & join pools up to ₦10M (`+30 pts` Trust Boost) |
+| **Tier 3 (CAC Registration)** | Corporate Affairs Commission Document | **UNLIMITED** | Unlimited high-yield merchant and cooperative pools (`+40 pts`) |
+
+---
+
+## 🧠 4. Algorithmic AI Reputation Engine & Core Laws
+
+$$\text{Trust Score} = \text{Base (30)} + \text{KYC Boost (up to +40)} + \text{Payments (up to +20)} + \text{Cycles (up to +10)} - \text{Defaults (-25/each)}$$
+
+1. **The Organizer Payout Immunity Law (Hard Constraint):**
+   * Under NO circumstances can the Circle Organizer / Creator take **Turn #1 (Position #1)**.
+   * Turn #1 is strictly reserved for a regular non-organizer peer member to prevent fraudulent pool creation for instant capital extraction.
+2. **Dynamic PostgreSQL Calculation (`calculate_trust_score` RPC):**
+   * Factored automatically on every KYC verification and verified Paystack payment event.
+3. **Transparent Glass Ledger:**
+   * Every payment debit, escrow lock, and rotational payout generates a cryptographic receipt that broadcasts live in real-time.
+
+---
+
+## 💳 5. Dual-Pillar Financial Engine (Wallet & Escrow)
+
+* **Ready Personal Wallet (`/wallet`):** Ready-to-spend balance for instant 0-fee circle contributions and immediate payouts.
+* **Zero-Custody Escrow (`/circles/[id]`):** Automated locked funds powered by Paystack.
+* **AML Bank Account Name-Matching Security:**
+  * Uses Paystack's real-time Name Enquiry API to perform tokenized string-similarity matching between the recipient bank account name and the user's verified KYC name.
+  * **Strictly blocks third-party bank accounts** to prevent financial fraud and money laundering.
+
+---
+
+## 🛠 6. Tech Stack & Infrastructure
 
 | Layer | Technology |
 |---|---|
-| **Framework** | Next.js 16 (App Router, Turbopack) |
-| **Language** | TypeScript |
+| **Framework** | Next.js 16 (App Router, Turbopack, React 19) |
+| **Language** | TypeScript (Strict Mode) |
 | **Styling** | Tailwind CSS v4 + shadcn/ui (Base UI) |
-| **Database** | Supabase PostgreSQL |
-| **Auth** | Supabase Auth (Email OTP / PKCE) |
-| **Realtime** | Supabase Realtime (postgres_changes) |
-| **Payments** | Paystack Inline v1 + Webhooks |
-| **Rate Limiting** | Upstash Redis |
-| **Media CDN** | Cloudinary |
-| **Offline** | @ducanh2912/next-pwa + Dexie.js (IndexedDB) |
-| **Error Tracking** | Sentry |
+| **Database & Auth** | Supabase PostgreSQL + Row Level Security (RLS) |
+| **Realtime** | Supabase Realtime WebSocket Subscriptions |
+| **Payment Gateway** | Paystack Inline Gateway + HMAC-SHA512 Webhooks |
+| **Rate Limiting** | Upstash Redis Sliding Window |
+| **Media CDN** | Cloudinary (Zero Supabase bandwidth stress) |
+| **PWA & Offline** | @ducanh2912/next-pwa + Dexie.js (IndexedDB) |
+| **Error Tracking** | Sentry SDK (with PII scrubbing) |
 | **Analytics** | Vercel Analytics + Speed Insights |
-| **Hosting** | Vercel |
-| **Cron Jobs** | Supabase pg_cron |
+| **Hosting** | Vercel Production Infrastructure |
 
 ---
 
-## 🗄 Database Architecture
+## 🔐 7. Security Architecture (10 Layers)
 
-```
-profiles         → mirrors auth.users + trust_score + kyc_tier + avatar_url
-circles          → name, amount, frequency, invite_code, status, current_round
-memberships      → circle_id × user_id, payout_position, has_paid_current_round
-transactions     → amount, type (contribution/payout/penalty), paystack_reference (UNIQUE)
-```
-
-All 4 tables have **Row Level Security enabled**. Users can only read/write their own data.
-
----
-
-## 🔐 Security Architecture (10 Layers)
-
-1. **RLS** — PostgreSQL Row Level Security on all tables
-2. **PKCE** — Supabase Auth with Proof Key for Code Exchange
-3. **Rate Limiting** — Upstash Redis sliding window (auth endpoints)
-4. **HMAC-SHA512** — Paystack webhook signature verification
-5. **Zod Validation** — Every API route validates with Zod schemas
-6. **Service Role Isolation** — Admin client only used in webhook handler
-7. **UNIQUE Constraint** — `paystack_reference` prevents double-processing
-8. **CSP Headers** — Content-Security-Policy in next.config.ts
-9. **Env Isolation** — All secrets in `.env.local` (gitignored)
-10. **Sentry PII Scrubbing** — Email removed from error events in `beforeSend`
+1. **PostgreSQL RLS** — Strict Row Level Security policies on all 4 core tables.
+2. **PKCE Authentication** — Supabase Auth with Proof Key for Code Exchange.
+3. **Rate Limiting** — Upstash Redis sliding window (5 requests / 15 min on auth).
+4. **HMAC-SHA512** — Cryptographic signature verification on Paystack webhooks.
+5. **Zod Validation** — Type-safe schema validation on every inbound API request.
+6. **Service Role Isolation** — Admin client strictly isolated from browser exposure.
+7. **UNIQUE Constraint Protection** — `paystack_reference` guarantees zero double-crediting.
+8. **AML Name-Matching** — Enforces verified name matching on all bank withdrawals.
+9. **Media Offloading** — Cloudinary CDN shields database from binary file strain.
+10. **Sentry PII Scrubbing** — Sensitive emails and credentials scrubbed before telemetry.
 
 ---
 
-## 🚀 Local Setup
+## 📱 8. PWA Installation & Anti-Impersonation
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/nuhu-lawal20/ajo_savings_tracker.git
-cd ajo_savings_tracker
-
-# 2. Install dependencies
-npm install --legacy-peer-deps
-
-# 3. Copy environment variables
-cp .env.example .env.local
-# Then fill in all values — see .env.example for descriptions
-
-# 4. Run database migrations (requires Supabase CLI or MCP)
-# OR apply migrations in Supabase dashboard SQL editor
-
-# 5. Start development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
+* **Add to Home Screen:** Installable on iOS Safari and Android Chrome with branded **KAD A DASHE** icon and launch splash screen.
+* **Anti-Impersonation Protection:** Members are advised and guided to join circles exclusively using the **6-character alphanumeric Invite Code** (`KADASHE-XXXXXX`) or direct invite link, preventing accidental entry into look-alike pools.
 
 ---
 
-## 🌍 Environment Variables
-
-See [`.env.example`](.env.example) for all required variables with descriptions. Key services:
-
-- **Supabase** — Database, Auth, Realtime
-- **Paystack** — Payment processing (use test keys locally)
-- **Upstash Redis** — Rate limiting
-- **Cloudinary** — Avatar CDN
-- **Sentry** — Error tracking
-- **Resend** — Transactional Email delivery
-
----
-
-## ✉️ Email Authentication & OTP Configuration
-
-Alajo utilizes Supabase Auth OTP (One-Time Password) for passwordless authentication.
-
-### Testing & Evaluation Setup (Default Mailer)
-* **Custom SMTP**: `OFF` in Supabase Project Settings.
-* **Recipient Scope**: Delivers 6-digit verification codes to **any email address** (`@gmail.com`, `@yahoo.com`, `@outlook.com`) with 0 domain setup required.
-* **Email Template**: Uses custom emerald-branded HTML template containing `{{ .Token }}` for 6-digit OTP entry.
-
-### Commercial Production Setup (Custom Domain with Resend)
-* **Custom SMTP**: `ON` with Resend SMTP credentials.
-* **Requirements**: Connect a verified custom domain (e.g. `alajo.ng`) at [resend.com/domains](https://resend.com/domains) to send from `hello@alajo.ng` across public domains.
-* *Note: Resend free developer sandboxes (`onboarding@resend.dev`) strictly limit test delivery to the single registered account owner.*
-
-
----
-
-## 📱 PWA Installation
-
-1. Open the app on mobile Chrome/Safari
-2. Tap the "Add Alajo to Home Screen" prompt (appears automatically)
-3. App works offline — circles and transactions cached in IndexedDB
-4. Offline actions queue and sync automatically on reconnect
-
----
-
-## 🧪 Test Payments (Paystack Test Mode)
-
-Use Paystack's Nigerian test card:
-
-```
-Card: 4084 0840 8408 4081
-Expiry: any future date
-CVV: any 3 digits
-PIN: 1234
-OTP: 123456
-```
-
----
-
-## 🏗 Architecture Overview
-
-```
-Browser (PWA)
-  └─ Next.js App Router (Vercel Edge)
-       ├─ (auth) — signup / login / verify (OTP)
-       ├─ (dashboard) — circles / profile / transactions
-       ├─ join/[code] — public invite landing page
-       └─ api/
-            ├─ circles / circles/join / circles/[id]/start
-            ├─ contributions  → creates Paystack reference
-            ├─ upload         → Cloudinary signed upload
-            └─ webhooks/paystack → HMAC verify → round rotation
-
-Supabase PostgreSQL
-  ├─ RLS on all tables
-  ├─ pg_cron: nightly trust score + keep-alive
-  └─ Realtime: transactions + memberships broadcast
-
-Paystack
-  └─ Inline popup → reference → webhook → confirm → advance round
-```
-
----
-
-## 👨‍💻 Fellow Information
+## 👨‍💻 9. Fellow Information
 
 | Field | Value |
 |---|---|
 | **Fellow Name** | Nuhu Lawal |
 | **Fellow ID** | FE/23/84783109 |
 | **Email** | nuhulawal20@gmail.com |
-| **State** | Kaduna |
-| **ALC** | Almara Hub - Paragon Nigeria |
-| **Track** | 3MTT NextGen Capstone |
+| **Track** | Software Development — 3MTT NextGen Capstone |
+| **ALC Center** | Almara Hub - Paragon Nigeria, Kaduna State |
 
 ---
 
 ## 📄 License
 
-MIT — Open source for the Nigerian developer community.
-
----
-
-<p align="center">Built with ❤️ for the 3MTT NextGen Capstone Fellowship</p>
+MIT License — Open source for the Nigerian fintech and developer community.

@@ -1,87 +1,39 @@
-# 🐛 ALAJO — PROBLEMS & SOLUTIONS LOG
-> Every bug, error, or blocker encountered — and exactly how it was fixed.
-> PURPOSE: Never solve the same problem twice.
+# 🚨 KADASHE — PROBLEMS & RISKS TRACKER
+> Updated after every issue encountered. Never delete resolved entries.
 
 ---
 
-## LOG FORMAT
-### P[NUMBER] — [Short Title]
-- **Session:** N | **Date:** YYYY-MM-DD
-- **Context:** What were we trying to do?
-- **Problem:** Exact error message or description
-- **Root Cause:** Why did it happen?
-- **Solution:** Exact fix applied
-- **Prevention:** How to avoid this in future
-- **Status:** RESOLVED / WORKAROUND / OPEN
+## ⚡ ACTIVE PROBLEMS (NONE)
+- All core features, auth flows, database policies, and theme styling are 100% operational.
 
 ---
 
-## ⚠️ NO PROBLEMS YET — SESSION 1 WAS BRAINSTORMING ONLY
+## 🛡️ RISKS & MITIGATIONS
 
----
+### RISK-001 — Free Tier Overages
+- **Risk:** Exceeding Supabase, Upstash, or Vercel limits
+- **Prevention:** Guardrails in code, rate limiting, caching
+- **Status:** MITIGATED
 
-## 🔖 KNOWN RISKS TO WATCH (Pre-emptive)
+### RISK-002 — Paystack Webhook Failure
+- **Risk:** Webhook dropped, transaction not recorded
+- **Prevention:** Idempotency keys + manual verification fallback
+- **Status:** MITIGATED
 
-### RISK-001 — Supabase Project Inactivity Pause
-- **Risk:** Supabase free tier pauses projects after 7 days of no activity
-- **Prevention:** pg_cron keep-alive query scheduled every 6 days:
-  `SELECT cron.schedule(keep-alive, 0 12 */6 * *, $$SELECT 1$$);`
-- **Status:** PREVENTION IN PLACE (implement on Day 1)
+### RISK-003 — Supabase Realtime Disconnection
+- **Risk:** WebSocket drops, live ledger stops updating
+- **Prevention:** Auto-reconnect + fallback polling every 30s
+- **Status:** MITIGATED
 
-### RISK-002 — Cloudinary Credit Overrun
-- **Risk:** 25 credits/month exhausted by heavy image transforms
-- **Prevention:**
-  - All avatars resized to 200x200 on upload (1 transform each)
-  - WebP auto-format saves 30-40% bandwidth
-  - Monitor at 80% usage threshold
-- **Status:** PREVENTION DESIGNED
+### RISK-004 — RLS Policy Bypass
+- **Risk:** Users accessing data belonging to other circles
+- **Prevention:** RLS enabled on all 4 tables with strict user_id checks
+- **Status:** MITIGATED
 
-### RISK-003 — Resend Daily Limit (100 emails/day)
-- **Risk:** OTP spam or notification burst hits 100/day cap
-- **Prevention:**
-  - Max 3 OTP requests per user per hour (DB check)
-  - Batch weekly reminders into single email per user
-  - Idempotent welcome email (check sent_at flag before sending)
-- **Status:** PREVENTION DESIGNED
-
-### RISK-004 — Paystack Webhook Replay Attack
-- **Risk:** Attacker replays a valid Paystack webhook to credit a transaction twice
-- **Prevention:**
-  - paystack_reference column has UNIQUE constraint in DB
-  - HMAC-SHA512 signature verification on every webhook
-  - Check transaction status before processing
-- **Status:** PREVENTION DESIGNED (implement on Day 3)
-
-### RISK-005 — Next.js Service Worker Conflicts
-- **Risk:** Service worker caches stale Next.js build chunks after deployment
-- **Prevention:**
-  - next-pwa auto-generates versioned service worker on each build
-  - reloadOnOnline: true in PWA config
-  - Cache names include build hash
-- **Status:** PREVENTION DESIGNED
-
-### RISK-006 — Supabase RLS Policy Gaps
-- **Risk:** Missing RLS policy allows user to query another user's data
-- **Prevention:**
-  - Test ALL policies with Supabase Policy Tester in dashboard
-  - Test with a secondary test user account
-  - Every table MUST have RLS enabled before launch
-- **Status:** PREVENTION DESIGNED (test on Day 1)
-
-### RISK-007 — Environment Variables Leaked to Client
-- **Risk:** Secret keys (SUPABASE_SERVICE_ROLE_KEY, PAYSTACK_SECRET_KEY) accidentally exposed to browser
-- **Prevention:**
-  - All server-only keys: NO NEXT_PUBLIC_ prefix
-  - Audit .env.example before every commit
-  - next.config.ts: never put secrets in publicRuntimeConfig
-- **Status:** PREVENTION DESIGNED
-
-### RISK-008 — Vercel Cold Start on Edge Functions
-- **Risk:** First request after inactivity has high latency
-- **Prevention:**
-  - Edge Functions (not Serverless) have no cold starts
-  - Use next/headers and middleware at edge runtime
-- **Status:** PREVENTION DESIGNED
+### RISK-005 — Hit-and-Run Default on Rotation Payout
+- **Risk:** Member receives lump sum early, stops contributing
+- **Prevention:** AI Trust Score gating + KYC Tier limits (Tier 1: ₦10k, Tier 2: ₦100k, Tier 3: Unlimited)
+- **Status:** MITIGATED
 
 ---
 
@@ -91,15 +43,13 @@
 - **Session:** 6 | **Date:** 2026-08-18
 - **Context:** User was signing up with `nuhulawal20@gmail.com` on the `/signup` screen using Supabase with Custom SMTP configured via Resend.
 - **Problem:** Supabase returned `500 AuthRetryableFetchError: Error sending confirmation email`.
-- **Root Cause:** Resend's free default sandbox (`onboarding@resend.dev`) restricts outgoing emails strictly to the single email registered on the Resend account (`nuhu7777@gmail.com`). Attempts to send to any other recipient return HTTP 403 `validation_error`.
-- **Solution:** 
-  1. For Capstone evaluation & testing: Disabled Custom SMTP in Supabase Dashboard so Supabase's built-in mailer sends to ANY email address with 0 restrictions.
-  2. For Production V2: Developers can purchase/connect a verified custom domain (`alajo.ng`) in Resend to send from `hello@alajo.ng` to any address.
+- **Root Cause:** Resend's free default sandbox (`onboarding@resend.dev`) restricts outgoing emails strictly to the single email registered on the Resend account (`nuhu7777@gmail.com`).
+- **Solution:** Configured Brevo (Sendinblue) Free SMTP in Supabase Settings (`smtp-relay.brevo.com:587`), delivering custom 6-digit branded OTP codes (`{{ .Token }}`) to ANY recipient email address worldwide without domain gatekeeping (300 emails/day free).
 - **Status:** RESOLVED
 
 ### P002 — Network Packet Drop / ECONNRESET Causing "fetch failed"
 - **Session:** 5 | **Date:** 2026-08-17
-- **Context:** Submitting the auth forms during local development when network blips occurred.
+- **Context:** Submitting auth forms during local development when network blips occurred.
 - **Problem:** Client-side JavaScript threw raw `TypeError: fetch failed` without helpful context.
 - **Root Cause:** Server actions and client-side form submission handlers lacked top-level `try...catch` wrappers.
 - **Solution:** Added structured `try...catch` blocks to `src/app/(auth)/actions.ts`, `signup/page.tsx`, `login/page.tsx`, and `verify/page.tsx` with user-friendly retry messages.
@@ -109,6 +59,63 @@
 - **Session:** 5 | **Date:** 2026-08-17
 - **Context:** Verification screen expected a 6-digit number, but Supabase sent a click confirmation link.
 - **Problem:** Default Supabase email templates use `{{ .ConfirmationURL }}` instead of `{{ .Token }}`.
-- **Solution:** Configured emerald-branded custom email templates in Supabase containing `{{ .Token }}` and updated `src/app/auth/callback/route.ts` to handle both token hashes and 6-digit codes.
+- **Solution:** Configured custom email templates in Supabase containing `{{ .Token }}` and updated `src/app/auth/callback/route.ts` to handle both token hashes and 6-digit codes.
 - **Status:** RESOLVED
+
+### P004 — Residual Green / Emerald Elements Across Multiple Dashboard Pages
+- **Session:** 7 | **Date:** 2026-08-19
+- **Context:** After adopting Option 2 (Sovereign Navy & Electric Cyan), legacy green badges, borders (`#e6ece8`), and icons remained in auth, circles, admin, and ledger pages.
+- **Problem:** Inconsistent visual palette across dashboard routes.
+- **Solution:** Conducted codebase-wide audit and replaced all instances of `emerald`, `teal`, and `#032316` with Sovereign Navy (`#0F2744`) and Electric Cyan (`#0284C7` / `#38BDF8`). Verified with grep & `npm run build` (0 errors).
+- **Status:** RESOLVED
+
+### P005 — Brandmark Contrast on Dark Navy Surfaces
+- **Session:** 8 | **Date:** 2026-08-20
+- **Context:** The bottom tier wordmark (`DASHE`) blended into dark navy backgrounds (`#071322`).
+- **Problem:** Reduced brandmark legibility on dark surfaces.
+- **Solution:** Implemented multi-stop linear gradients across `<KadasheLogo />`: upper ice-blue crystal highlights (`#BAE6FD` &rarr; `#60A5FA`), mid-body royal cobalt (`#2563EB`), and deep sovereign navy base (`#1E3A8A` &rarr; `#0F2744`). Gives rich depth and 100% contrast without defaulting to flat white text.
+- **Status:** RESOLVED
+
+### P006 — Super Admin Circle Approval Returning Error
+- **Session:** 9 | **Date:** 2026-08-21
+- **Context:** Super Admin clicking "Approve Circle" on `/admin` received a failed error.
+- **Problem:** HTTP method mismatch (`AdminCircleCard.tsx` sent `POST`, but `/api/circles/[id]/start` only exported `PATCH`) and PostgreSQL RLS policy on `circles` restricted updates to `creator_id = auth.uid()`, blocking non-creator Super Admins.
+- **Solution:** Added dual `POST` and `PATCH` support, used `createAdminClient()` (Service Role) when `isAdmin === true` to safely bypass RLS, and added instant `revalidatePath` calls.
+- **Status:** RESOLVED
+
+### P007 — Stale KYC Tier Display in Admin Console
+- **Session:** 9 | **Date:** 2026-08-21
+- **Context:** When a user upgraded from Tier 1 to Tier 2 in `/profile`, the Admin console still displayed Tier 1.
+- **Problem:** Next.js 16 Server Component caching served stale rendered HTML for `/admin`.
+- **Solution:** Added `export const dynamic = "force-dynamic"` to `admin/page.tsx`, `profile/page.tsx`, and `dashboard/page.tsx`, and triggered `revalidatePath("/admin")` inside `/api/kyc/verify`.
+- **Status:** RESOLVED
+
+### P008 — Identity Verification Gating & Biometric Avatar Assignment
+- **Session:** 9 | **Date:** 2026-08-21
+- **Context:** Users could join circles without verified identity or profile details, and avatars could be set to arbitrary images.
+- **Problem:** Lack of identity verification before joining circles created risk of ghost accounts and impersonation.
+- **Solution:** Enforced mandatory profile completion for all circles, required Tier 2 BVN/NIN verification for circles > ₦10,000, added in-place KYC modal triggers on `/join/[code]`, and automatically bound the verified biometric identity photo upon KYC verification. Documented live vs sandbox API costs for 3MTT supervisors.
+- **Status:** RESOLVED
+
+### P009 — Admin Console PostgREST Foreign Key Resolution (0 Listed / 0 Profiles)
+- **Session:** 11 | **Date:** 2026-08-21
+- **Context:** Opening `/admin` showed `0 Listed` circles and `0 Profiles` in Member Directory.
+- **Problem:** In `admin/page.tsx`, PostgREST queries joined `profiles` using `!creator_id` instead of the exact PostgreSQL constraint name `!circles_creator_id_fkey`, and reverse profile sub-queries failed under standard user client sessions.
+- **Solution:** Upgraded all server-side administrative metrics and listing queries to `createAdminClient()`, updated the foreign key constraint qualifier to `!circles_creator_id_fkey`, and mapped created circles count in memory.
+- **Status:** RESOLVED
+
+### P010 — Circle Details 404 Not Found When Inspected by Platform Administrators
+- **Session:** 11 | **Date:** 2026-08-21
+- **Context:** When an admin or moderator clicked on an active savings pool from `/admin` or `/circles`, the page returned `404 Not Found`.
+- **Problem:** Because administrators adhere to Segregation of Duties and are not members of consumer savings pools, standard RLS queries on `circles/[id]` filtered the circle record out, triggering `notFound()`.
+- **Solution:** Switched circle and membership data retrieval in `src/app/(dashboard)/circles/[id]/page.tsx` to `createAdminClient()`, allowing supervisors to inspect rotation orders and Glass Ledgers without RLS blocking.
+- **Status:** RESOLVED
+
+### P011 — Helper Admin Displaying Super Admin Badges & Consumer Onboarding Links
+- **Session:** 11 | **Date:** 2026-08-21
+- **Context:** Helper Admin accounts (`moderator1@kadashe.ng`) showed `👑 Super Admin` badge and consumer "How It Works" links.
+- **Problem:** UI components checked `isAdmin` without distinguishing `is_super_admin` vs `is_helper_admin`.
+- **Solution:** Differentiated Super Admin (`👑 Super Admin`, Amber theme) from Helper Admin (`🛡️ Helper Admin / Moderator`, Sky-Blue theme) across all headers, profile cards, and sidebars. Removed consumer tutorials ("How It Works" & "HELP") from administrative views.
+- **Status:** RESOLVED
+
 

@@ -69,9 +69,9 @@ export function AvatarUploader({
 
   return (
     <div className="relative mx-auto w-fit">
-      <Avatar className="h-20 w-20 border-2 border-border shadow-md">
+      <Avatar className="h-20 w-20 border-2 border-[#e1e8f0] dark:border-sky-500/20 shadow-md">
         {previewUrl && <AvatarImage src={previewUrl} alt={fullName} />}
-        <AvatarFallback className="bg-emerald-600 text-white text-2xl font-bold">
+        <AvatarFallback className="bg-gradient-to-tr from-[#0F2744] to-[#0284C7] text-white text-2xl font-bold">
           {initials}
         </AvatarFallback>
       </Avatar>
@@ -81,7 +81,7 @@ export function AvatarUploader({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={uploading}
-        className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-emerald-600 hover:bg-emerald-700 flex items-center justify-center text-white shadow-md transition-colors"
+        className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-[#0284C7] hover:bg-[#0369A1] flex items-center justify-center text-white shadow-md transition-colors"
         title="Upload profile photo"
         aria-label="Upload profile photo"
       >

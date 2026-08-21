@@ -1,6 +1,6 @@
-# API Documentation — Alajo
+# API Documentation — Kadashe
 
-Base URL (production): `https://alajo.vercel.app`  
+Base URL (production): `https://kadashe.vercel.app`  
 All routes require authentication unless marked **Public**.
 
 ---
@@ -21,13 +21,13 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 [
   {
     "id": "uuid",
-    "name": "Lagos Traders Pool",
+    "name": "Kaduna Traders Pool",
     "status": "active",
     "contribution_amount": 5000,
     "frequency": "weekly",
     "max_members": 10,
     "current_round": 3,
-    "invite_code": "ALAJO-9X2P"
+    "invite_code": "KADASHE-9X2P"
   }
 ]
 ```
@@ -40,7 +40,7 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 **Request body:**
 ```json
 {
-  "name": "Lagos Traders Pool",
+  "name": "Kaduna Traders Pool",
   "description": "Weekly savings group",
   "contributionAmount": 5000,
   "frequency": "weekly",
@@ -51,7 +51,7 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 **Response 201:**
 ```json
 {
-  "circle": { "id": "uuid", "invite_code": "ALAJO-9X2P", ... },
+  "circle": { "id": "uuid", "invite_code": "KADASHE-9X2P", ... },
   "membership": { "payout_position": 1, ... }
 }
 ```
@@ -63,7 +63,7 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 
 **Request body:**
 ```json
-{ "inviteCode": "ALAJO-9X2P" }
+{ "inviteCode": "KADASHE-9X2P" }
 ```
 
 **Response 200:**
@@ -98,7 +98,7 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 **Response 200:**
 ```json
 {
-  "reference": "ALAJO-TX-1A2B-3C4D5E",
+  "reference": "KADASHE-TX-1A2B-3C4D5E",
   "amount": 500000,
   "email": "user@example.com",
   "transactionId": "uuid"
@@ -132,7 +132,7 @@ Requests are authenticated via Supabase session cookies set by the Auth flow. No
 
 **Response 200:**
 ```json
-{ "url": "https://res.cloudinary.com/alajo/image/upload/v.../avatar_uuid.jpg" }
+{ "url": "https://res.cloudinary.com/kadashe/image/upload/v.../avatar_uuid.jpg" }
 ```
 
 **Errors:** `400` wrong MIME type | `400` file too large | `500` Cloudinary error

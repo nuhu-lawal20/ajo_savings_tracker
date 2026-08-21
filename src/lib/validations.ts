@@ -41,9 +41,18 @@ export const MakeContributionSchema = z.object({
   amount: z.number().positive("Amount must be greater than zero"),
 });
 
+// ==========================================
+// KYC & Identity Schemas
+// ==========================================
+export const VerifyKycSchema = z.object({
+  idType: z.enum(["bvn", "nin"]),
+  idNumber: z.string().regex(/^\d{11}$/, "BVN or NIN must be exactly 11 numeric digits"),
+});
+
 export type SignUpInput = z.infer<typeof SignUpSchema>;
 export type LoginOtpInput = z.infer<typeof LoginOtpSchema>;
 export type VerifyOtpInput = z.infer<typeof VerifyOtpSchema>;
 export type CreateCircleInput = z.infer<typeof CreateCircleSchema>;
 export type JoinCircleInput = z.infer<typeof JoinCircleSchema>;
 export type MakeContributionInput = z.infer<typeof MakeContributionSchema>;
+export type VerifyKycInput = z.infer<typeof VerifyKycSchema>;

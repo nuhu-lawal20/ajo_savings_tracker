@@ -1,6 +1,6 @@
-# Security Architecture — Alajo
+# Security Architecture — Kadashe
 
-Alajo implements **10 security layers** to protect member funds, data, and identity.
+Kadashe implements **10 security layers** to protect member funds, data, and identity.
 
 ---
 

@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       cloudinary.uploader
         .upload_stream(
           {
-            folder: "alajo/avatars",
+            folder: "kadashe/avatars",
             public_id: `avatar_${user.id}`,
             overwrite: true,
             transformation: [

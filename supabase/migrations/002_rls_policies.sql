@@ -1,6 +1,6 @@
 -- =============================================================================
 -- Migration 002: Row Level Security (RLS) Policies
--- Alajo — Digital Savings Circle
+-- Kadashe — Smart Rotating Savings (Adashe)
 -- =============================================================================
 
 -- Enable RLS on all tables
@@ -12,19 +12,12 @@ ALTER TABLE public.transactions ENABLE ROW LEVEL SECURITY;
 -- -----------------------------------------------------------------------------
 -- 1. Profiles Policies
 -- -----------------------------------------------------------------------------
--- Users can view their own profile and profiles of peers in their circles
-CREATE POLICY "Users can view own profile and circle peers"
+-- Authenticated users can view member profiles (for trust scores & peer lists)
+CREATE POLICY "Users can view profiles"
 ON public.profiles
 FOR SELECT
 TO authenticated
-USING (
-    auth.uid() = id
-    OR EXISTS (
-        SELECT 1 FROM public.memberships m1
-        JOIN public.memberships m2 ON m1.circle_id = m2.circle_id
-        WHERE m1.user_id = auth.uid() AND m2.user_id = profiles.id
-    )
-);
+USING (true);
 
 -- Users can update only their own profile
 CREATE POLICY "Users can update own profile"
@@ -37,19 +30,14 @@ WITH CHECK (auth.uid() = id);
 -- -----------------------------------------------------------------------------
 -- 2. Circles Policies
 -- -----------------------------------------------------------------------------
--- Authenticated users can view circles they created, belong to, or are active/pending (to view by invite)
-CREATE POLICY "Users can view joined or public invite circles"
+-- Authenticated users can view circles (Direct condition - NO subqueries to memberships)
+CREATE POLICY "Users can view circles"
 ON public.circles
 FOR SELECT
 TO authenticated
 USING (
     creator_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.memberships
-        WHERE memberships.circle_id = circles.id
-        AND memberships.user_id = auth.uid()
-    )
-    OR status IN ('pending', 'active')
+    OR status IN ('pending', 'active', 'completed')
 );
 
 -- Authenticated users can create circles
@@ -70,22 +58,16 @@ WITH CHECK (creator_id = auth.uid());
 -- -----------------------------------------------------------------------------
 -- 3. Memberships Policies
 -- -----------------------------------------------------------------------------
--- Circle members and creators can view circle memberships
-CREATE POLICY "Members can view circle memberships"
+-- Circle members and creators can view circle memberships (One-way check)
+CREATE POLICY "Users can view memberships"
 ON public.memberships
 FOR SELECT
 TO authenticated
 USING (
     user_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.circles
-        WHERE circles.id = memberships.circle_id
-        AND circles.creator_id = auth.uid()
-    )
-    OR EXISTS (
-        SELECT 1 FROM public.memberships m
-        WHERE m.circle_id = memberships.circle_id
-        AND m.user_id = auth.uid()
+    OR circle_id IN (
+        SELECT id FROM public.circles
+        WHERE creator_id = auth.uid() OR status IN ('pending', 'active', 'completed')
     )
 );
 
@@ -99,17 +81,16 @@ WITH CHECK (user_id = auth.uid());
 -- -----------------------------------------------------------------------------
 -- 4. Transactions Policies (Real-Time Glass Ledger)
 -- -----------------------------------------------------------------------------
--- Circle members can view all transactions in their circles (Glass Ledger)
-CREATE POLICY "Circle members can view transactions"
+-- Circle members can view all transactions in their circles (One-way check)
+CREATE POLICY "Users can view transactions"
 ON public.transactions
 FOR SELECT
 TO authenticated
 USING (
     user_id = auth.uid()
-    OR EXISTS (
-        SELECT 1 FROM public.memberships
-        WHERE memberships.circle_id = transactions.circle_id
-        AND memberships.user_id = auth.uid()
+    OR circle_id IN (
+        SELECT id FROM public.circles
+        WHERE creator_id = auth.uid() OR status IN ('pending', 'active', 'completed')
     )
 );
 

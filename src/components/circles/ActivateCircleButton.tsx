@@ -53,7 +53,7 @@ export function ActivateCircleButton({
     <Button
       onClick={handleStart}
       disabled={loading || memberCount < 2}
-      className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-sm shadow-emerald-600/25"
+      className="bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-xs shadow-sm shadow-sky-600/25 rounded-full px-4 h-9"
     >
       {loading ? (
         <>

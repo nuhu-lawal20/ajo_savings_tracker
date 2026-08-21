@@ -1,46 +1,57 @@
+"use client";
+
 import Link from "next/link";
-import { SignOutButton } from "@/components/layout/SignOutButton";
+import { usePathname } from "next/navigation";
+import { KadasheLogo } from "@/components/ui/kadashe-logo";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { CircleDollarSign, LayoutDashboard, UserCheck, ShieldCheck, Receipt } from "lucide-react";
+import { SignOutButton } from "@/components/layout/SignOutButton";
+import {
+  CircleDollarSign,
+  LayoutDashboard,
+  Receipt,
+  UserCheck,
+  ShieldCheck,
+  Crown,
+  Shield,
+} from "lucide-react";
+
 
 interface NavbarProps {
   userProfile?: {
     full_name: string;
     email: string;
-    trust_score: number;
+    trust_score?: number;
+    is_admin?: boolean;
+    admin_role?: string;
   } | null;
 }
 
 export function Navbar({ userProfile }: NavbarProps) {
-  const initials = userProfile?.full_name
-    ? userProfile.full_name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
-    : "AL";
-
+  const pathname = usePathname();
   const trustScore = userProfile?.trust_score ?? 50;
+  const isSuperAdmin =
+    userProfile?.admin_role === "super_admin" ||
+    (userProfile?.is_admin && userProfile?.admin_role !== "helper_admin");
+  const isHelperAdmin = userProfile?.admin_role === "helper_admin";
+  const isAdmin = isSuperAdmin || isHelperAdmin;
+
+  const initials =
+    userProfile?.full_name
+      ?.split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2) || "U";
+
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-8">
-        {/* Brand */}
+    <header className="sticky top-0 z-40 w-full border-b border-[#e1e8f0] dark:border-sky-500/20 bg-background/95 backdrop-blur-md">
+      <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+        {/* Brand Logo & Left Nav */}
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-emerald-600/30 border border-emerald-400/30">
-              ₦
-            </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-base tracking-tight leading-none bg-gradient-to-r from-emerald-700 to-emerald-950 dark:from-emerald-300 dark:to-white bg-clip-text text-transparent">
-                Alajo
-              </span>
-              <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold uppercase tracking-wider mt-0.5">
-                Digital Savings
-              </span>
-            </div>
+          <Link href="/dashboard" className="flex items-center">
+            <KadasheLogo size="md" />
           </Link>
 
           {/* Navigation links */}
@@ -49,7 +60,7 @@ export function Navbar({ userProfile }: NavbarProps) {
               href="/dashboard"
               className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-foreground hover:bg-muted transition-colors"
             >
-              <LayoutDashboard className="h-4 w-4 text-emerald-600" />
+              <LayoutDashboard className="h-4 w-4 text-[#0284C7]" />
               Dashboard
             </Link>
             <Link
@@ -73,32 +84,68 @@ export function Navbar({ userProfile }: NavbarProps) {
               <UserCheck className="h-4 w-4" />
               Trust Profile
             </Link>
+
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-extrabold bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 transition-all shadow-sm"
+              >
+                <Crown className="h-3.5 w-3.5 text-amber-400" />
+                Admin Console
+              </Link>
+            )}
           </nav>
         </div>
 
-        {/* Right Section: Trust Badge & User Profile */}
-        <div className="flex items-center gap-3">
+        {/* Right Section: Trust Badge, Admin Badge & User Profile */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Admin Role Badge */}
+          {isAdmin && (
+            <Link href="/admin" title={isSuperAdmin ? "Super Admin Console" : "Helper Admin Console"}>
+              <Badge
+                className={
+                  isSuperAdmin
+                    ? "bg-amber-500/20 text-amber-600 dark:text-amber-300 border-amber-500/40 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full flex items-center gap-1 shadow-xs"
+                    : "bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-400/40 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full flex items-center gap-1 shadow-xs"
+                }
+              >
+                {isSuperAdmin ? (
+                  <>
+                    <Crown className="h-3 w-3 text-amber-500 dark:text-amber-400" />
+                    <span>Super Admin</span>
+                  </>
+                ) : (
+                  <>
+                    <Shield className="h-3 w-3 text-[#0284C7] dark:text-sky-400" />
+                    <span>Helper Admin</span>
+                  </>
+                )}
+              </Badge>
+            </Link>
+          )}
+
+
           {/* Trust Score Mini Badge */}
           <Link href="/profile" title="AI Trust Score">
             <Badge
               variant="outline"
               className={`px-2.5 py-1 text-xs font-bold rounded-full flex items-center gap-1.5 cursor-pointer ${
                 trustScore >= 70
-                  ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-500/30"
+                  ? "bg-sky-50 dark:bg-sky-950/50 text-[#0284C7] dark:text-sky-300 border-sky-500/30"
                   : trustScore >= 40
                   ? "bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-500/30"
                   : "bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border-red-500/30"
               }`}
             >
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+              <ShieldCheck className="h-3.5 w-3.5 text-[#0284C7]" />
               <span>Trust: {trustScore}</span>
             </Badge>
           </Link>
 
           {/* User Avatar */}
           <Link href="/profile">
-            <Avatar className="h-9 w-9 border border-border">
-              <AvatarFallback className="bg-emerald-600 text-white text-xs font-bold">
+            <Avatar className="h-9 w-9 border border-[#e1e8f0] dark:border-sky-500/20">
+              <AvatarFallback className="bg-gradient-to-tr from-[#0F2744] to-[#0284C7] text-white text-xs font-bold">
                 {initials}
               </AvatarFallback>
             </Avatar>

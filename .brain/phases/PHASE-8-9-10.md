@@ -76,6 +76,11 @@ Goal: App live on Vercel. Demo video recorded. 3MTT form submitted.
 Depends on: Phase 9 APPROVED | Blocks: NOTHING (finish line!)
 
 ## CHECKLIST
+- [ ] P10.0  Pre-Deployment Role & Escrow Verification:
+             - Circle Admin: Create circle, generate invite link, start circle schedule.
+             - Ordinary Joiner: Join via /join/[code], make Paystack test contribution, view receipt & Trust Score bump.
+             - Super Admin: Access /admin console, inspect ledgers, monitor pooled escrow.
+             - Payout Engine: Verify round aggregation, payout record generation, and round progression.
 - [ ] P10.1  Connect GitHub repo to Vercel (import project at vercel.com/new)
 - [ ] P10.2  Add ALL environment variables to Vercel dashboard:
              NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY,

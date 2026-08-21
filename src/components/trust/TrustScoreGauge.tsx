@@ -8,7 +8,7 @@ interface TrustScoreGaugeProps {
 }
 
 function getTrustColor(score: number) {
-  if (score >= 70) return { stroke: "#059669", label: "Excellent", text: "text-emerald-600 dark:text-emerald-400" };
+  if (score >= 70) return { stroke: "#0284C7", label: "Excellent", text: "text-[#0284C7] dark:text-sky-400" };
   if (score >= 40) return { stroke: "#d97706", label: "Moderate", text: "text-amber-600 dark:text-amber-400" };
   return { stroke: "#dc2626", label: "Building", text: "text-red-600 dark:text-red-400" };
 }

@@ -18,9 +18,10 @@ import {
   Users,
 } from "lucide-react";
 import { InviteShareModal } from "@/components/circles/InviteShareModal";
-import { ActivateCircleButton } from "@/components/circles/ActivateCircleButton";
 import { PaymentButton } from "@/components/payments/PaymentButton";
 import { GlassLedger } from "@/components/circles/GlassLedger";
+import { MemberPayoutList } from "@/components/circles/MemberPayoutList";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export default async function CircleDetailPage({
   params,
@@ -28,14 +29,15 @@ export default async function CircleDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const supabase = await createClient();
+  const adminDb = createAdminClient();
   const { id: circleId } = await params;
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Fetch circle details with creator
-  const { data: circle, error: circleError } = await supabase
+  // Fetch circle details with creator using adminDb for guaranteed server-side resolution
+  const { data: circle, error: circleError } = await adminDb
     .from("circles")
     .select("*, creator:profiles!circles_creator_id_fkey(*)")
     .eq("id", circleId)
@@ -46,52 +48,56 @@ export default async function CircleDetailPage({
   }
 
   // Fetch members with profiles
-  const { data: members } = await supabase
+  const { data: members } = await adminDb
     .from("memberships")
     .select("*, profile:profiles(*)")
     .eq("circle_id", circleId)
     .order("payout_position", { ascending: true });
 
   // Fetch transactions for glass ledger
-  const { data: transactions } = await supabase
+  const { data: transactions } = await adminDb
     .from("transactions")
-    .select("*, profile:profiles(full_name)")
+    .select("*, profile:profiles!user_id(full_name)")
     .eq("circle_id", circleId)
     .order("created_at", { ascending: false });
+
 
   const isCreator = circle.creator_id === user!.id;
   const currentMembersCount = members?.length ?? 0;
   const poolPerRound = Number(circle.contribution_amount) * circle.max_members;
   const userMembership = members?.find((m: any) => m.user_id === user!.id);
 
+
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto pb-12">
       {/* Top Breadcrumb & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/60">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#e1e8f0] dark:border-sky-500/20">
         <div className="flex items-center gap-3">
           <Link href="/circles">
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full">
-              <ArrowLeft className="h-4 w-4" />
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full hover:bg-sky-50 dark:hover:bg-sky-500/10">
+              <ArrowLeft className="h-4 w-4 text-slate-700 dark:text-slate-200" />
             </Button>
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-extrabold tracking-tight">{circle.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                {circle.name}
+              </h1>
               <Badge
-                className={`text-xs ${
+                className={`text-[10px] font-bold uppercase rounded-full px-2 py-0 border-0 ${
                   circle.status === "active"
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-sky-100 dark:bg-sky-500/20 text-[#0284C7] dark:text-sky-300"
                     : circle.status === "completed"
-                    ? "bg-blue-600 text-white"
-                    : "bg-amber-500 text-white"
+                    ? "bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300"
+                    : "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300"
                 }`}
               >
                 {circle.status}
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Organized by {circle.creator?.full_name} • Invite Code:{" "}
-              <span className="font-mono font-bold text-foreground">{circle.invite_code}</span>
+              Organized by <span className="font-semibold text-slate-800 dark:text-slate-200">{circle.creator?.full_name}</span> • Invite Code:{" "}
+              <span className="font-mono font-bold text-[#0284C7] dark:text-sky-400">{circle.invite_code}</span>
             </p>
           </div>
         </div>
@@ -99,16 +105,14 @@ export default async function CircleDetailPage({
         <div className="flex items-center gap-3">
           <InviteShareModal inviteCode={circle.invite_code} circleName={circle.name} />
 
-          {isCreator && circle.status === "pending" && (
-            <ActivateCircleButton circleId={circle.id} memberCount={currentMembersCount} />
-          )}
-
           {circle.status === "active" && userMembership && !userMembership.has_paid_current_round && (
             <PaymentButton
               circleId={circle.id}
               amount={Number(circle.contribution_amount)}
               email={user!.email!}
               circleName={circle.name}
+              membershipId={userMembership.id}
+              roundNumber={circle.current_round}
             />
           )}
         </div>
@@ -116,65 +120,73 @@ export default async function CircleDetailPage({
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
+            <CardTitle className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider">
               Round Pool Payout
             </CardTitle>
-            <CircleDollarSign className="h-4 w-4 text-emerald-600" />
+            <div className="h-8 w-8 rounded-xl bg-sky-50 dark:bg-sky-500/15 text-[#0284C7] dark:text-sky-400 flex items-center justify-center">
+              <CircleDollarSign className="h-4 w-4" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
+          <CardContent className="space-y-0.5">
+            <div className="text-2xl font-black text-[#0284C7] dark:text-sky-400">
               ₦{poolPerRound.toLocaleString()}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+            <p className="text-[11px] text-muted-foreground font-medium">
               ₦{Number(circle.contribution_amount).toLocaleString()} × {circle.max_members} members
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
+            <CardTitle className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider">
               Rotation Cycle
             </CardTitle>
-            <Calendar className="h-4 w-4 text-emerald-600" />
+            <div className="h-8 w-8 rounded-xl bg-blue-50 dark:bg-blue-500/15 text-[#0F2744] dark:text-sky-400 flex items-center justify-center">
+              <Calendar className="h-4 w-4" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-extrabold capitalize">{circle.frequency}</div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+          <CardContent className="space-y-0.5">
+            <div className="text-2xl font-black capitalize text-slate-900 dark:text-white">{circle.frequency}</div>
+            <p className="text-[11px] text-muted-foreground font-medium">
               Round {circle.current_round} of {circle.max_members}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
+            <CardTitle className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider">
               Members Joined
             </CardTitle>
-            <Users className="h-4 w-4 text-emerald-600" />
+            <div className="h-8 w-8 rounded-xl bg-sky-50 dark:bg-sky-500/15 text-[#0284C7] dark:text-sky-400 flex items-center justify-center">
+              <Users className="h-4 w-4" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-extrabold">
+          <CardContent className="space-y-0.5">
+            <div className="text-2xl font-black text-slate-900 dark:text-white">
               {currentMembersCount} / {circle.max_members}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+            <p className="text-[11px] text-muted-foreground font-medium">
               {circle.max_members - currentMembersCount} open slots remaining
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-border/60 bg-card shadow-sm">
+        <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
+            <CardTitle className="text-[11px] font-extrabold text-muted-foreground uppercase tracking-wider">
               Escrow Protection
             </CardTitle>
-            <Lock className="h-4 w-4 text-emerald-600" />
+            <div className="h-8 w-8 rounded-xl bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+              <Lock className="h-4 w-4" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-extrabold">100% Locked</div>
-            <p className="text-[11px] text-muted-foreground mt-1">
+          <CardContent className="space-y-0.5">
+            <div className="text-2xl font-black text-amber-600 dark:text-amber-400">100% Locked</div>
+            <p className="text-[11px] text-muted-foreground font-medium">
               Zero Admin Direct Custody
             </p>
           </CardContent>
@@ -182,62 +194,24 @@ export default async function CircleDetailPage({
       </div>
 
       {/* Member Payout Schedule Order */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-bold tracking-tight">Rotation Payout Order</h2>
-        <Card className="border-border/60 bg-card shadow-sm">
-          <CardContent className="p-4 sm:p-6 space-y-3">
-            {members?.map((m: any) => {
-              const isCurrentUser = m.user_id === user!.id;
-              const trustScore = m.profile?.trust_score ?? 50;
-
-              return (
-                <div
-                  key={m.id}
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-colors ${
-                    isCurrentUser
-                      ? "bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-500/30"
-                      : "bg-muted/30 border-border/60"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white font-extrabold text-sm shadow-sm">
-                      #{m.payout_position}
-                    </div>
-
-                    <Avatar className="h-9 w-9 border border-border">
-                      <AvatarFallback className="text-xs font-bold">
-                        {m.profile?.full_name?.charAt(0)?.toUpperCase() ?? "U"}
-                      </AvatarFallback>
-                    </Avatar>
-
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm">{m.profile?.full_name}</span>
-                        {isCurrentUser && (
-                          <Badge variant="outline" className="text-[10px] text-emerald-600 border-emerald-500/30">
-                            You
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        AI Trust: <span className="font-semibold text-foreground">{trustScore}/100</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="text-right flex items-center gap-3">
-                    <Badge
-                      variant={m.has_paid_current_round ? "default" : "outline"}
-                      className={`text-xs ${
-                        m.has_paid_current_round ? "bg-emerald-600 text-white" : "text-muted-foreground"
-                      }`}
-                    >
-                      {m.has_paid_current_round ? "Round Paid" : "Payment Pending"}
-                    </Badge>
-                  </div>
-                </div>
-              );
-            })}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white">
+            Rotation Payout Order
+          </h2>
+          <span className="text-[11px] font-semibold text-muted-foreground">
+            Click any member to inspect Trust Dossier
+          </span>
+        </div>
+        <Card className="rounded-3xl border border-[#e1e8f0] dark:border-sky-500/20 bg-white dark:bg-[#071322] shadow-sm">
+          <CardContent className="p-4 sm:p-5">
+            <MemberPayoutList
+              members={members ?? []}
+              currentUserId={user!.id}
+              creatorId={circle.creator_id}
+              contributionAmount={Number(circle.contribution_amount)}
+              currentRound={circle.current_round}
+            />
           </CardContent>
         </Card>
       </div>

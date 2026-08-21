@@ -3,7 +3,9 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { Redis } from "@upstash/redis";
+
 import { Ratelimit } from "@upstash/ratelimit";
 import { SignUpSchema, LoginOtpSchema, VerifyOtpSchema } from "@/lib/validations";
 
@@ -16,7 +18,8 @@ const redis = new Redis({
 const otpRateLimit = new Ratelimit({
   redis,
   limiter: Ratelimit.slidingWindow(5, "15 m"),
-  prefix: "alajo:ratelimit:otp",
+  prefix: "kadashe:ratelimit:otp",
+  analytics: true,
 });
 
 async function getClientIp(): Promise<string> {
@@ -80,10 +83,13 @@ export async function signUpAction(formData: FormData): Promise<AuthActionResult
   try {
     const supabase = await createClient();
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         shouldCreateUser: true,
+        emailRedirectTo: `${appUrl}/auth/callback`,
         data: {
           full_name: fullName,
           phone,
@@ -94,13 +100,13 @@ export async function signUpAction(formData: FormData): Promise<AuthActionResult
     if (error) {
       return {
         success: false,
-        message: error.message || "Failed to send verification code. Please try again.",
+        message: error.message || "Failed to send verification email. Please try again.",
       };
     }
 
     return {
       success: true,
-      message: "Verification code sent to your email.",
+      message: "Verification email sent to your email address.",
     };
   } catch (err: any) {
     console.error("Sign up error:", err);
@@ -149,27 +155,57 @@ export async function signInWithOtpAction(formData: FormData): Promise<AuthActio
 
   try {
     const supabase = await createClient();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+    // Check account suspension status
+    const adminDb = createAdminClient();
+    const { data: existingProfile } = await adminDb
+      .from("profiles")
+      .select("is_suspended")
+      .eq("email", email.toLowerCase().trim())
+      .maybeSingle();
+
+    if (existingProfile?.is_suspended) {
+      return {
+        success: false,
+        message: "This account has been suspended by platform administration. Please contact support for assistance.",
+      };
+    }
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         shouldCreateUser: false, // Only allow existing users on login
+        emailRedirectTo: `${appUrl}/auth/callback`,
       },
     });
 
+
     if (error) {
-      // If user does not exist, give friendly prompt to signup
-      if (error.message.toLowerCase().includes("user not found") || error.status === 400) {
+      const msg = (error.message || "").toLowerCase();
+      // If user does not exist or signups not allowed for login OTP, give descriptive, actionable message
+      if (
+        msg.includes("signups not allowed") ||
+        msg.includes("user not found") ||
+        msg.includes("not allowed for otp") ||
+        msg.includes("user does not exist") ||
+        msg.includes("invalid login credentials") ||
+        (error as any).code === "otp_disabled" ||
+        error.status === 422 ||
+        error.status === 400
+      ) {
         return {
           success: false,
-          message: "No account found with this email. Please sign up first.",
+          message: "No registered account found for this email address. Please click 'Create an account' below to register your profile.",
         };
       }
+
       return {
         success: false,
         message: error.message || "Failed to send login code. Please try again.",
       };
     }
+
 
     return {
       success: true,
@@ -236,6 +272,64 @@ export async function verifyOtpAction(formData: FormData): Promise<AuthActionRes
     };
   }
 }
+
+// -----------------------------------------------------------------------------
+// 3b. Sign In with Password (for Supervisors & Evaluator Test Accounts)
+// -----------------------------------------------------------------------------
+export async function signInWithPasswordAction(formData: FormData): Promise<AuthActionResult> {
+  const email = (formData.get("email") as string)?.toLowerCase().trim();
+  const password = formData.get("password") as string;
+
+  if (!email || !password) {
+    return {
+      success: false,
+      message: "Email and password are required.",
+    };
+  }
+
+  try {
+    const supabase = await createClient();
+
+    // Check account suspension status
+    const adminDb = createAdminClient();
+    const { data: existingProfile } = await adminDb
+      .from("profiles")
+      .select("is_suspended")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (existingProfile?.is_suspended) {
+      return {
+        success: false,
+        message: "This account has been suspended by platform administration. Please contact support for assistance.",
+      };
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      return {
+        success: false,
+        message: error.message || "Invalid email or password.",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Signed in successfully.",
+    };
+  } catch (err: any) {
+    console.error("Sign in with password error:", err);
+    return {
+      success: false,
+      message: err?.message || "An unexpected error occurred during sign in.",
+    };
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // 4. Sign Out

@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NetworkBanner } from "@/components/layout/NetworkBanner";
 import { InstallPrompt } from "@/components/layout/InstallPrompt";
+import { AppSplashScreen } from "@/components/layout/AppSplashScreen";
 import "./globals.css";
 
 const jakartaSans = Plus_Jakarta_Sans({
@@ -20,18 +21,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alajo — Digital Savings Circle (Ajo/Esusu/Adashe)",
+  title: "Kadashe — Nigerian Smart Rotating Savings & Credit (Adashe)",
   description:
-    "Automated and secure Nigerian rotating savings circles (Ajo/Esusu/Adashe). 100% fraud protection, transparent live ledgers, and guaranteed on-time payouts.",
+    "Automated and secure Nigerian rotating savings circles (Adashe/Ajo/Esusu). 100% locked escrow protection, transparent live ledgers, and automated on-time payouts.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/icons/icon-192.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#008751",
+  themeColor: "#071322",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -46,9 +53,14 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${jakartaSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col naira-pattern text-foreground selection:bg-emerald-600 selection:text-white">
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col naira-pattern text-foreground selection:bg-[#0284C7] selection:text-white"
+      >
+        <AppSplashScreen />
         <NetworkBanner />
         {children}
         <InstallPrompt />
