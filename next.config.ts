@@ -39,6 +39,10 @@ const nextConfig: NextConfig = {
             value: "application/manifest+json; charset=utf-8",
           },
           {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
             key: "Access-Control-Allow-Origin",
             value: "*",
           },
@@ -53,7 +57,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "X-Frame-Options",
-            value: "DENY",
+            value: "SAMEORIGIN",
           },
           {
             key: "X-XSS-Protection",

@@ -1,11 +1,11 @@
 // Kadashe PWA Service Worker — Offline & Instant Launch Engine
-const CACHE_VERSION = "kadashe-v1.1.2";
+const CACHE_VERSION = "kadashe-v1.3.0";
 const STATIC_CACHE = `kadashe-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `kadashe-dynamic-${CACHE_VERSION}`;
 
 // Core assets required for instantaneous offline startup
 const PRECACHE_ASSETS = [
-  "/launch",
+  "/",
   "/offline",
   "/manifest.json",
   "/favicon.ico",

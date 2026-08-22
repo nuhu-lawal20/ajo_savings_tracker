@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { KadasheLogo } from "@/components/ui/kadashe-logo";
 import { FeatureShowcaseCarousel } from "@/components/home/FeatureShowcaseCarousel";
@@ -12,12 +15,23 @@ import {
   RefreshCw,
   LayoutDashboard,
 } from "lucide-react";
+import type { User } from "@supabase/supabase-js";
 
-export default async function Home() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    try {
+      const supabase = createClient();
+      supabase.auth.getUser().then(({ data }) => {
+        if (data?.user) {
+          setUser(data.user);
+        }
+      });
+    } catch (e) {
+      console.warn("Client auth check bypassed on home load:", e);
+    }
+  }, []);
 
   const isLoggedIn = !!user;
 
@@ -147,7 +161,7 @@ export default async function Home() {
           </div>
 
           {/* Sign In Helper below Hero CTA */}
-          {isLoggedIn ? (
+          {isLoggedIn && user ? (
             <p className="mt-3 text-xs text-sky-200/90 font-medium">
               Signed in as <span className="font-extrabold text-white">{user.email}</span> •{" "}
               <Link href="/dashboard" className="font-extrabold text-sky-300 underline underline-offset-4 hover:text-white transition-colors">
